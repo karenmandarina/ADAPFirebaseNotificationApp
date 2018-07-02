@@ -134,9 +134,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                         }
                                                     });
 
-
-
-
                                             } else {
 
                                                 Toast.makeText(RegisterActivity.this, "Error : " + uploadTask.getException().getMessage(), Toast.LENGTH_LONG).show();
