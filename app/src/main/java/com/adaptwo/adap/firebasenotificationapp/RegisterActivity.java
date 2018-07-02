@@ -99,11 +99,10 @@ public class RegisterActivity extends AppCompatActivity {
                                             if(uploadTask.isSuccessful()){
 
                                                 //final String download_urlx = uploadTask.getResult().getDownloadUrl().toString();
-                                                final String download_url = user_profile.getDownloadUrl()
-                                                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                user_profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                             @Override
                                                             public void onSuccess(Uri uri) {
-                                                                Uri download_url = uri;
+                                                                final String download_url = uri.toString();
                                                                 String token_id = FirebaseInstanceId.getInstance().getToken();
 
                                                                 Map<String, Object> userMap = new HashMap<>();
