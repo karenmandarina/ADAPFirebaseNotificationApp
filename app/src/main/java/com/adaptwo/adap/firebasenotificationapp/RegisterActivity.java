@@ -98,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             if(uploadTask.isSuccessful()){
 
-//                                                final String download_url = uploadTask.getResult().getDownloadUrl().toString();
+                                                //final String download_urlx = uploadTask.getResult().getDownloadUrl().toString();
                                                 final String download_url = user_profile.getDownloadUrl().toString();
 
 
