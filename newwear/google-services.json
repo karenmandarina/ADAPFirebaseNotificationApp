@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "203005058409",
+    "firebase_url": "https://adap2-notification.firebaseio.com",
+    "project_id": "adap2-notification",
+    "storage_bucket": "adap2-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203005058409:android:9f4ae21a257f7373",
+        "android_client_info": {
+          "package_name": "com.adaptwo.adap.firebasenotificationapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203005058409-v9eq37j56nistgbe73r8budg9mt6d4b2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxGROwBpuYKOA1hOtglRUXhnUucpGTDSY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203005058409:android:73d6b53257355467",
+        "android_client_info": {
+          "package_name": "com.adaptwo.adap.newwear"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203005058409-v9eq37j56nistgbe73r8budg9mt6d4b2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxGROwBpuYKOA1hOtglRUXhnUucpGTDSY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
