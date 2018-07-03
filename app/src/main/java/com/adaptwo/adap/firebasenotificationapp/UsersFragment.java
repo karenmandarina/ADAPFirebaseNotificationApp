@@ -67,19 +67,21 @@ public class UsersFragment extends android.support.v4.app.Fragment {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
-                for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+                if (documentSnapshots!=null) {
+                    for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
-                    if (doc.getType() == DocumentChange.Type.ADDED) {
+                        if (doc.getType() == DocumentChange.Type.ADDED) {
 
-                        String user_id = doc.getDocument().getId();
+                            String user_id = doc.getDocument().getId();
 
-                        Users users = doc.getDocument().toObject(Users.class).withId(user_id);
-                        usersList.add(users);
+                            Users users = doc.getDocument().toObject(Users.class).withId(user_id);
+                            usersList.add(users);
 
-                        usersRecyclerAdapter.notifyDataSetChanged();
+                            usersRecyclerAdapter.notifyDataSetChanged();
+
+                        }
 
                     }
-
                 }
 
             }
