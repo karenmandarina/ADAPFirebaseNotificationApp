@@ -98,36 +98,40 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             if(uploadTask.isSuccessful()){
 
-//                                                final String download_url = uploadTask.getResult().getDownloadUrl().toString();
-                                                final String download_url = user_profile.getDownloadUrl().toString();
+                                                //final String download_urlx = uploadTask.getResult().getDownloadUrl().toString();
+                                                user_profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                final String download_url = uri.toString();
+                                                                String token_id = FirebaseInstanceId.getInstance().getToken();
 
+                                                                Map<String, Object> userMap = new HashMap<>();
+                                                                userMap.put("name", name);
+                                                                userMap.put("image", download_url);
+                                                                userMap.put("token_id", token_id);
 
-                                                String token_id = FirebaseInstanceId.getInstance().getToken();
+                                                                mFirestore.collection("Users").document(user_id).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
 
-                                                Map<String, Object> userMap = new HashMap<>();
-                                                userMap.put("name", name);
-                                                userMap.put("image", download_url);
-                                                userMap.put("token_id", token_id);
+                                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
 
-                                                mFirestore.collection("Users").document(user_id).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
+                                                                        sendToMain();
 
-                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
+                                                                    }
+                                                                }).addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
 
-                                                        sendToMain();
+                                                                        Toast.makeText(RegisterActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
 
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
+                                                                    }
+                                                                });
+                                                            }
+                                                            //Toast.makeText(MtActivity.this, "Upload Done", Toast.LENGTH_LONG).show();
 
-                                                        Toast.makeText(RegisterActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
-
-                                                    }
-                                                });
-
+                                                    });
 
                                             } else {
 
