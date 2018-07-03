@@ -102,6 +102,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                         Intent loginIntent = new Intent(container.getContext(), LoginActivity.class);
 
                         startActivity(loginIntent);
+                        // end the current activity...
+                        finish();
                         Log.d("NotificationApp", "Logged out");
 
 
