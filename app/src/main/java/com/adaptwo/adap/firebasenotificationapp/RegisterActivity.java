@@ -129,8 +129,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                                     }
                                                                 });
                                                             }
-                                                            Toast.makeText(MtActivity.this, "Upload Done", Toast.LENGTH_LONG).show();
-                                                        }
+                                                            //Toast.makeText(MtActivity.this, "Upload Done", Toast.LENGTH_LONG).show();
+
                                                     });
 
                                             } else {
