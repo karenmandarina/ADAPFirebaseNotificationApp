@@ -33,6 +33,7 @@ public class SendActivity extends AppCompatActivity {
     private String mUserName;
     private String mCurrentId;
     private String time;
+    private String type;
 
     private EditText mMessageView;
     private Button mSendBtn;
@@ -75,6 +76,7 @@ public class SendActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String message = mMessageView.getText().toString();
+                type = "Custom";
 
                 if(!TextUtils.isEmpty(message)){
 
@@ -85,6 +87,7 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("from", mCurrentId);
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
+                    notificationMessage.put("messageType", type);
                     // add- positive, neg, and vibration
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
@@ -116,6 +119,7 @@ public class SendActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String message = "Good Job!";
+                type = "Positive";
 
                 if(!TextUtils.isEmpty(message)){
 
@@ -126,6 +130,8 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("from", mCurrentId);
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
+                    notificationMessage.put("messageType", type);
+
 
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
@@ -157,6 +163,7 @@ public class SendActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String message = "Don't do that!";
+                type = "Corrective";
 
                 if(!TextUtils.isEmpty(message)){
 
@@ -167,6 +174,8 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("from", mCurrentId);
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
+                    notificationMessage.put("messageType", type);
+
 
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)

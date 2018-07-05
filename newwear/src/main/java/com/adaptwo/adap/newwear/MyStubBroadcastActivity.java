@@ -14,7 +14,7 @@ public class MyStubBroadcastActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent i = new Intent();
-        i.setAction("com.adapplus.adap.SHOW_NOTIFICATION");
+        i.setAction("SHOW_NOTIFICATION");
         i.putExtra(NotificationPageView.CONTENT_KEY, getString(R.string.title));
         sendBroadcast(i);
         finish();
