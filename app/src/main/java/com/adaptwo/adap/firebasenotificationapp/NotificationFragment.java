@@ -66,19 +66,18 @@ public class NotificationFragment extends android.support.v4.app.Fragment {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
-                for(DocumentChange doc: documentSnapshots.getDocumentChanges()) {
+                if(documentSnapshots!=null) {
+                    for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
-                    com.adaptwo.adap.firebasenotificationapp.Notifications notifications = doc.getDocument().toObject(com.adaptwo.adap.firebasenotificationapp.Notifications.class);
-                    mNotifList.add(notifications);
+                        com.adaptwo.adap.firebasenotificationapp.Notifications notifications = doc.getDocument().toObject(com.adaptwo.adap.firebasenotificationapp.Notifications.class);
+                        mNotifList.add(notifications);
 
-                    notificationsAdapter.notifyDataSetChanged();
+                        notificationsAdapter.notifyDataSetChanged();
 
-
+                    }
                 }
-
             }
         });
-
 
 
         return v;

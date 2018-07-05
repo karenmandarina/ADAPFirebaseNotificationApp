@@ -65,43 +65,29 @@ public class UsersFragment extends android.support.v4.app.Fragment {
         usersList.clear();
 
         // getting all users stored in Firestore
-        final ListenerRegistration Listen =  mFirestore.collection("Users").addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+        mFirestore.collection("Users").addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
-                    if (doc.getType() == DocumentChange.Type.ADDED) {
+                if (documentSnapshots!=null) {
+                    for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
-                        String user_id = doc.getDocument().getId();
+                        if (doc.getType() == DocumentChange.Type.ADDED) {
 
-                        Users users = doc.getDocument().toObject(Users.class).withId(user_id);
-                        usersList.add(users);
+                            String user_id = doc.getDocument().getId();
 
-                        usersRecyclerAdapter.notifyDataSetChanged();
+                            Users users = doc.getDocument().toObject(Users.class).withId(user_id);
+                            usersList.add(users);
+
+                            usersRecyclerAdapter.notifyDataSetChanged();
+
+                        }
+
                     }
                 }
+
             }
         });
 
-        Log.d("NotificationApp", "Listener is: "+ Listen);
-
-//        if (Listen!= null) {
-//            Listen.remove();
-//           // Listen = null;
-//        }
-//        Log.d("NotificationApp", "Listener now is: "+ Listen);
-
-
     }
-
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//
-//        if (Listen!= null) {
-//            Listen.remove();
-//            Listen = null;
-//        }
-//    }
-
 }
