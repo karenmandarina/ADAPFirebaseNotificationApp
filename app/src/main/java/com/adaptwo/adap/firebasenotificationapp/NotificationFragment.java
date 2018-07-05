@@ -73,10 +73,12 @@ public class NotificationFragment extends android.support.v4.app.Fragment {
 
                     notificationsAdapter.notifyDataSetChanged();
 
+
                 }
 
             }
         });
+
 
 
         return v;

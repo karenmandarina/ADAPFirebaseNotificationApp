@@ -1,5 +1,6 @@
 package com.adaptwo.adap.firebasenotificationapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.wearable.DataClient;
+import com.google.android.gms.wearable.Wearable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -17,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mNotificationLabel;
 
     private ViewPager mMainPager;
-    private com.adaptwo.adap.firebasenotificationapp.PagerViewAdapter mPagerViewAdapter;
+    private PagerViewAdapter mPagerViewAdapter;
     private FirebaseAuth mAuth;
 
     @Override

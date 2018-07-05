@@ -2,6 +2,7 @@ package com.adaptwo.adap.firebasenotificationapp;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -39,6 +40,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
     private FirebaseFirestore mFirestore;
     private String mUserId;
+    static final String FROM_PREFS = "EmailPrefs";
+    static final String FROM_NAME = "senderEmail";
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -80,9 +83,15 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 Glide.with(container.getContext()).setDefaultRequestOptions(placeholderOption).load(user_image).into(mProfileImage);
                 //Log.d("NotificationApp", "User image: " + user_image);
 
+//                Intent sendIntent = new Intent(getContext(), com.adaptwo.adap.firebasenotificationapp.SendActivity.class);
+//                sendIntent.putExtra("from_name", user_name);
+//                getContext().startActivity(sendIntent);
+
+
 
             }
         });
+
 
 
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +109,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
                         mAuth.signOut();
                         Intent loginIntent = new Intent(container.getContext(), LoginActivity.class);
-
+                        getActivity().finish();
                         startActivity(loginIntent);
                         Log.d("NotificationApp", "Logged out");
 
@@ -116,3 +125,4 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     }
 
 }
+

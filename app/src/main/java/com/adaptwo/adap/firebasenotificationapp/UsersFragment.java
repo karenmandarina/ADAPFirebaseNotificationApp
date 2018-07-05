@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -63,10 +65,9 @@ public class UsersFragment extends android.support.v4.app.Fragment {
         usersList.clear();
 
         // getting all users stored in Firestore
-        mFirestore.collection("Users").addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+        final ListenerRegistration Listen =  mFirestore.collection("Users").addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-
                 for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
                     if (doc.getType() == DocumentChange.Type.ADDED) {
@@ -77,13 +78,30 @@ public class UsersFragment extends android.support.v4.app.Fragment {
                         usersList.add(users);
 
                         usersRecyclerAdapter.notifyDataSetChanged();
-
                     }
-
                 }
-
             }
         });
 
+        Log.d("NotificationApp", "Listener is: "+ Listen);
+
+//        if (Listen!= null) {
+//            Listen.remove();
+//           // Listen = null;
+//        }
+//        Log.d("NotificationApp", "Listener now is: "+ Listen);
+
+
     }
+
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//
+//        if (Listen!= null) {
+//            Listen.remove();
+//            Listen = null;
+//        }
+//    }
+
 }

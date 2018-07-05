@@ -24,7 +24,7 @@
 
 
             <TextView
-                android:id="@+id/profileLabel"
+                android:id="@+id/welcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -33,15 +33,6 @@
                 android:textColor="@color/textTabBright"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/notificationsLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="15dp"
-                android:text="Notifications"
-                android:textColor="@color/textTabBright"
-                android:textSize="16sp" />
 
 
         </LinearLayout>
