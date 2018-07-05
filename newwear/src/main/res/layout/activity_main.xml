@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="15dp"
-                android:text="Profile"
+                android:text="Welcome to ADAP2"
                 android:textColor="@color/textTabBright"
                 android:textSize="16sp" />
 
