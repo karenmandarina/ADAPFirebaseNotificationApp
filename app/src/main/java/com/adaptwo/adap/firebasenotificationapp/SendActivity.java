@@ -1,5 +1,6 @@
 package com.adaptwo.adap.firebasenotificationapp;
 
+import android.os.VibrationEffect;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class SendActivity extends AppCompatActivity {
     private String mCurrentId;
     private String time;
     private String type;
+    private VibrationEffect mVibrationEffect;
 
     private EditText mMessageView;
     private Button mSendBtn;
@@ -77,6 +79,7 @@ public class SendActivity extends AppCompatActivity {
 
                 String message = mMessageView.getText().toString();
                 type = "Custom";
+                mVibrationEffect = [200 300 200 300 200 300 200 300];
 
                 if(!TextUtils.isEmpty(message)){
 
