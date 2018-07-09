@@ -3,6 +3,7 @@ package com.adaptwo.adap.firebasenotificationapp;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
@@ -26,12 +27,15 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         String dataMessage = remoteMessage.getData().get("message");
         String dataFrom = remoteMessage.getData().get("from_user_id");
 
+
+        final long[] pattern = {0, 100, 200, 100, 200, 100}; // sleep for 200 milliseconds and vibrate for 100 milliseconds
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(messageTitle)
                         .setContentText(messageBody)
-                    //    .setColor(getColor(R.color.colorPrimaryDark))
+                        .setVibrate(pattern)
+                        .setColor(getColor(R.color.colorPrimaryDark))
                 ;
 
 

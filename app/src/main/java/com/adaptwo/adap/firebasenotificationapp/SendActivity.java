@@ -1,6 +1,8 @@
 package com.adaptwo.adap.firebasenotificationapp;
 
+import android.os.Build;
 import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +37,6 @@ public class SendActivity extends AppCompatActivity {
     private String mCurrentId;
     private String time;
     private String type;
-    private VibrationEffect mVibrationEffect;
 
     private EditText mMessageView;
     private Button mSendBtn;
@@ -62,16 +63,23 @@ public class SendActivity extends AppCompatActivity {
                 //getIntent().getStringExtra("from_name");
         Log.d("NotificationApp", "From name: " + mCurrentId );
 
-
         time = Calendar.getInstance().getTime().toString();
-
         mUserId = getIntent().getStringExtra("user_id");
         Log.d("NotificationApp", "User ID: " + mUserId );
         Commands = "Commands";
-
+        final String launcher = getResources().getDrawable(R.drawable.ic_notif_icon, null).toString();
         mUserName = getIntent().getStringExtra("user_name");
-
         user_id_view.setText("Send to " + mUserName);
+
+//         final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+//        if (Build.VERSION.SDK_INT>=26) {
+//            void v =  vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+//        }else
+//            void v = vibrator.vibrate(200);
+
+        final int vibrationTime = 200;
+        final int vibrationAmp = VibrationEffect.DEFAULT_AMPLITUDE;
+
 
         mSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +87,7 @@ public class SendActivity extends AppCompatActivity {
 
                 String message = mMessageView.getText().toString();
                 type = "Custom";
-                mVibrationEffect = [200 300 200 300 200 300 200 300];
+                Log.d("NotificationsApp", "Launcher: " + launcher );
 
                 if(!TextUtils.isEmpty(message)){
 
@@ -91,7 +99,11 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
-                    // add- positive, neg, and vibration
+                    notificationMessage.put("launcher", launcher);
+                    notificationMessage.put("vibrationTime", vibrationTime);
+                    notificationMessage.put("vibrationAmp", vibrationAmp);
+
+                    //  vibration
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
                     mFirestore.collection("Users/" + mUserId + "/Notifications").add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -134,6 +146,8 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
+                    notificationMessage.put("launcher", launcher);
+
 
 
 
@@ -178,6 +192,7 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
+                    notificationMessage.put("launcher", launcher);
 
 
 

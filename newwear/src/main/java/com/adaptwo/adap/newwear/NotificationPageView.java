@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 public class NotificationPageView extends BroadcastReceiver {
     public static final String CONTENT_KEY = "contentText";
+    final long[] pattern = {200, 100, 200, 100, 200, 100}; // sleep for 2000 milliseconds and vibrate for 1000 milliseconds
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -22,6 +24,7 @@ public class NotificationPageView extends BroadcastReceiver {
         Notification notification = new Notification.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(text)
+                .setVibrate(pattern)
                 .extend(new Notification.WearableExtender()
                         .setDisplayIntent(PendingIntent.getActivity(context, 0, displayIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT)))
