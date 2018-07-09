@@ -159,7 +159,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }
 
-                }
+                } else
+                    Toast.makeText(RegisterActivity.this, "Error. Please upload an image.",Toast.LENGTH_LONG).show();
 
             }
         });
