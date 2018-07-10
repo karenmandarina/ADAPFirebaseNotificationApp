@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ADAPFirebaseNotificationApp.iml" filepath="$PROJECT_DIR$/ADAPFirebaseNotificationApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FirebaseNotificationApp.iml" filepath="$PROJECT_DIR$/FirebaseNotificationApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ADAPFirebaseNotificationApp.iml" filepath="$PROJECT_DIR$/.idea/ADAPFirebaseNotificationApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/newwear/newwear.iml" filepath="$PROJECT_DIR$/newwear/newwear.iml" />
       <module fileurl="file://$PROJECT_DIR$/wear/wear.iml" filepath="$PROJECT_DIR$/wear/wear.iml" />
