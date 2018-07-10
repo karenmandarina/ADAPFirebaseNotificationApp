@@ -2,6 +2,7 @@ package com.adaptwo.adap.firebasenotificationapp;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,10 @@ class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.Vie
 
                 String name = documentSnapshot.getString("name");
                 String image = documentSnapshot.getString("image");
+                Log.d("NotificationsApp", "Name " + name);
+                Log.d("NotificationsApp", "Image " + image);
+
+
 
                 holder.mNotifName.setText(name);
 

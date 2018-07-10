@@ -1,5 +1,6 @@
 package com.adaptwo.adap.firebasenotificationapp;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Build;
@@ -12,10 +13,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,11 +52,75 @@ public class SendActivity extends AppCompatActivity {
     private ProgressBar mMessageProgress;
 
     private FirebaseFirestore mFirestore;
+    private Spinner mPositiveSpinner;
+    private Spinner mCorrectiveSpinner;
+    ArrayAdapter<CharSequence> mPositiveAdapter;
+    ArrayAdapter<CharSequence> mCorrectiveAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
+        mPositiveSpinner = (Spinner) findViewById(R.id.positiveSpinner);
+        mPositiveAdapter = ArrayAdapter.createFromResource(this, R.array.positiveVibrations, android.R.layout.simple_spinner_item);
+        mPositiveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mPositiveSpinner.setAdapter(mPositiveAdapter);
+
+        mCorrectiveSpinner = (Spinner) findViewById(R.id.correctiveSpinner);
+        mCorrectiveAdapter = ArrayAdapter.createFromResource(this, R.array.correctiveVibrations, android.R.layout.simple_spinner_item);
+        mCorrectiveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mCorrectiveSpinner.setAdapter(mCorrectiveAdapter);
+
+        mPositiveSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int positiveChoice = parent.getSelectedItemPosition();
+                SharedPreferences sharedPref = getSharedPreferences("FileName",0);
+                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                prefEditor.putInt("positiveChoice",positiveChoice);
+                prefEditor.commit();
+                Log.d("NotificationsApp", "Positive selection: " + positiveChoice);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        SharedPreferences sharedPref = getSharedPreferences("FileName",MODE_PRIVATE);
+        int spinnerValue = sharedPref.getInt("positiveChoice",-1);
+        if(spinnerValue != -1) {
+            // set the selected value of the spinner
+            mPositiveSpinner.setSelection(spinnerValue);
+        }
+
+
+        mCorrectiveSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int correctiveChoice = parent.getSelectedItemPosition();
+                SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor",0);
+                SharedPreferences.Editor prefEditorCor = sharedPrefCor.edit();
+                prefEditorCor.putInt("correctiveChoice",correctiveChoice);
+                prefEditorCor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor",MODE_PRIVATE);
+        int spinnerValueCor = sharedPrefCor.getInt("correctiveChoice",-1);
+        if(spinnerValue != -1) {
+            // set the selected value of the spinner
+            mCorrectiveSpinner.setSelection(spinnerValueCor);
+        }
+
+
 
         user_id_view = (TextView) findViewById(R.id.user_name_view);
         mMessageView = (EditText) findViewById(R.id.message_view);
@@ -128,7 +196,7 @@ public class SendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String message = "Good Job!";
+                String message = "Good Job! \uD83D\uDE00";
                 type = "Positive";
 
                 if(!TextUtils.isEmpty(message)){
@@ -175,7 +243,7 @@ public class SendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String message = "Don't do that!";
+                String message = "Don't do that! \uD83D\uDE41";
                 type = "Corrective";
 
                 if(!TextUtils.isEmpty(message)){

@@ -4,4 +4,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_notification_channel_id">Channel_01</string>
+    <string name="vibrationHint">Select Vibration Pattern</string>
+    <string-array name="positiveVibrations">
+        <item> Default</item>
+        <item>Positive 1 </item>
+        <item> Positive 2</item>
+    </string-array>
+    <string-array name="correctiveVibrations">
+        <item> Default</item>
+        <item>Corrective 1 </item>
+        <item> Corrective 2</item>
+    </string-array>
 </resources>
