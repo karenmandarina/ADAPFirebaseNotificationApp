@@ -74,7 +74,7 @@ public class SendActivity extends AppCompatActivity {
         Log.d("NotificationApp", "User ID: " + mUserId );
         Commands = "Commands";
         final int launcher = R.mipmap.ic_launcher;
-//comment
+//comment1
         user_id_view.setText("Send to " + mUserName);
 
         mSendBtn.setOnClickListener(new View.OnClickListener() {
