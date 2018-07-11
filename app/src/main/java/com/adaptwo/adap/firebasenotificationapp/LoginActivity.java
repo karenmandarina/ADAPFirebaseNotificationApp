@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent regIntent = new Intent(LoginActivity.this, com.adaptwo.adap.firebasenotificationapp.RegisterActivity.class);
                 finish();
                 startActivity(regIntent);
+                finish();
 
             }
         });
