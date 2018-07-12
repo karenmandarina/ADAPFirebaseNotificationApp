@@ -50,12 +50,7 @@ public class NotificationActivity extends AppCompatActivity {
             mNotifData.setText(" FROM : " + from_name + " | MESSAGE : " + dataMessage);
         }
 
-
-
         Log.d("NotificationsApp", "Message: " + dataMessage);
-
-
-
 
 
         mShowNotifs.setOnClickListener(new View.OnClickListener() {

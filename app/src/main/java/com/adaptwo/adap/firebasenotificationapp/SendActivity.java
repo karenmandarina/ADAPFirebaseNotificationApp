@@ -80,23 +80,23 @@ public class SendActivity extends AppCompatActivity {
                 SharedPreferences.Editor prefEditor = sharedPref.edit();
                 prefEditor.putInt("positiveChoice",positiveChoice);
                 prefEditor.commit();
-                Log.d("NotificationsApp", "Positive selection: " + positiveChoice);
-
 
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+
+
         });
+
         SharedPreferences sharedPref = getSharedPreferences("FileName",MODE_PRIVATE);
         int spinnerValue = sharedPref.getInt("positiveChoice",-1);
         if(spinnerValue != -1) {
             // set the selected value of the spinner
             mPositiveSpinner.setSelection(spinnerValue);
         }
-
+        Log.d("NotificationsApp", "Spinner Positive selection: " + spinnerValue);
 
         mCorrectiveSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

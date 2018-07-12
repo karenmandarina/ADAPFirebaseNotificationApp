@@ -1,11 +1,14 @@
 package com.adaptwo.adap.firebasenotificationapp;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -20,37 +23,36 @@ import com.google.firebase.messaging.RemoteMessage;
 
 // to receive notification while app is running
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
-
+ private Vibrator vibrator;
+ private int color;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        color = getResources().getColor(R.color.colorPrimaryDark);
 
-
+        // Receiving data from cloud functions' data paylaod
         String messageTitle = remoteMessage.getData().get("title");
         String messageBody = remoteMessage.getData().get("body");
-
         String click_action = remoteMessage.getData().get("click_action");
         String dataMessage = remoteMessage.getData().get("message");
         String dataFrom = remoteMessage.getData().get("from_user_id");
         Log.d("NotificationsApp", "we have the data from Firebase: " + dataFrom + dataMessage);
-        //String launcher = remoteMessage.getData().get("launcherImage");
-
-//        long[] dataPattern = remoteMessage.getData().get("pattern");
-
-//        String dataVibTime = remoteMessage.getData().get("vibrationTime");
-//        String dataVibAmp = remoteMessage.getData().get("vibrationAmp");
 
 
+        final long[] pattern = {0, 200, 100, 1000, 200, 2000, 200, 1000, 100}; // sleep for 200 milliseconds and vibrate for 100 milliseconds
 
-        //final long[] pattern = {0, 100, 200, 100, 200, 100}; // sleep for 200 milliseconds and vibrate for 100 milliseconds
-
+        // Constructing a notification from the data received above
         String channelId= getString(R.string.default_notification_channel_id);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(messageTitle)
                         .setContentText(messageBody)
+                        .setColor(color)
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setAutoCancel(true)
+                      //  .extend(new Notification.WearableExtender()
+
                 ;
 
         Intent resultIntent = new Intent(click_action);
@@ -67,10 +69,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
-        Log.d("NotificationsApp", "pending intent" );
 
 
-
+        // Unique ID
         int mNotificationId = (int) System.currentTimeMillis();
         Log.d("test", "onMessageReceived: mnotificationid is " + mNotificationId );
 
@@ -78,10 +79,18 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(channelId, "Channel readable title",notificationManager.IMPORTANCE_DEFAULT );
+            channel.enableVibration(true);
+            channel.setVibrationPattern(pattern);
             notificationManager.createNotificationChannel(channel);
+
+            vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
+
+        }else {
+            mBuilder.setVibrate(pattern);
         }
 
-        notificationManager.notify(mNotificationId, mBuilder.build());
+//        notificationManager.notify(mNotificationId, mBuilder.build());
         NotificationManagerCompat mNotifyMgr = NotificationManagerCompat.from(this);
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
