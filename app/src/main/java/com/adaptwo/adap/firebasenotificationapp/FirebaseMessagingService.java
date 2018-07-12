@@ -55,6 +55,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
                 ;
 
+        // Intent for when the notification is clicked
         Intent resultIntent = new Intent(click_action);
         resultIntent.putExtra("message", dataMessage);
         resultIntent.putExtra("from_user_id", dataFrom);
@@ -77,6 +78,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+        // For newer SDK, a notification channel is needed
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(channelId, "Channel readable title",notificationManager.IMPORTANCE_DEFAULT );
             channel.enableVibration(true);
