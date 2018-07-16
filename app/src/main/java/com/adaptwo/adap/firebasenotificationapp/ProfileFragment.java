@@ -65,7 +65,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         mProfileName = (TextView) view.findViewById(R.id.profile_name);
 
         // retreiving current user's name and image from Firestore
-        mFirestore.collection("Users").document(mUserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        mFirestore.collection("Users").document(mUserId).get().
+                addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
@@ -80,10 +81,12 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 placeholderOption.placeholder(R.mipmap.default_image);
 
                 // display user image in the CircleImageView
-                Glide.with(container.getContext()).setDefaultRequestOptions(placeholderOption).load(user_image).into(mProfileImage);
+                Glide.with(container.getContext()).setDefaultRequestOptions(placeholderOption).
+                        load(user_image).into(mProfileImage);
                 //Log.d("NotificationApp", "User image: " + user_image);
 
-//                Intent sendIntent = new Intent(getContext(), com.adaptwo.adap.firebasenotificationapp.SendActivity.class);
+//                Intent sendIntent = new Intent(getContext(),
+//                  com.adaptwo.adap.firebasenotificationapp.SendActivity.class);
 //                sendIntent.putExtra("from_name", user_name);
 //                getContext().startActivity(sendIntent);
 
@@ -103,7 +106,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 Map<String, Object> tokenMapRemove = new HashMap<>();
                 tokenMapRemove.put("token_id", FieldValue.delete());
 
-                mFirestore.collection("Users").document(mUserId).update(tokenMapRemove).addOnSuccessListener(new OnSuccessListener<Void>() {
+                mFirestore.collection("Users").document(mUserId).update(tokenMapRemove).
+                        addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 

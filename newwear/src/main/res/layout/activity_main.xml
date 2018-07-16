@@ -32,16 +32,15 @@
                 android:text="Welcome to ADAP2"
                 android:textColor="@color/textTabBright"
                 android:textSize="16sp" />
-
+            <Button
+                android:id="@+id/send_tkn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Token"
+                />
 
 
         </LinearLayout>
-
-
-
-        <!--android:fontFamily="@font/nunito_semibold"-->
-
-
 
     </FrameLayout>
 </android.support.wear.widget.BoxInsetLayout>

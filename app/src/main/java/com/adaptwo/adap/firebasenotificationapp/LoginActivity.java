@@ -55,11 +55,14 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("NotificationApp", "login onCreate step 2");
 
 
+
+
         mRegPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent regIntent = new Intent(LoginActivity.this, com.adaptwo.adap.firebasenotificationapp.RegisterActivity.class);
+                Intent regIntent = new Intent(LoginActivity.this,
+                        com.adaptwo.adap.firebasenotificationapp.RegisterActivity.class);
                 finish();
                 startActivity(regIntent);
 
@@ -92,7 +95,8 @@ public class LoginActivity extends AppCompatActivity {
                                 Map<String, Object> tokenMap = new HashMap<>();
                                 tokenMap.put("token_id", token_id);
 
-                                mFirestore.collection("Users").document(current_id).update(tokenMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                mFirestore.collection("Users").document(current_id)
+                                        .update(tokenMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
 
@@ -104,7 +108,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             } else {
 
-                                Toast.makeText(LoginActivity.this, "Error : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Error : " +
+                                        task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 mProgressBar.setVisibility(View.INVISIBLE);
 
                             }

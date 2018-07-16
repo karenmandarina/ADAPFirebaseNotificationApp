@@ -61,14 +61,16 @@ public class NotificationFragment extends android.support.v4.app.Fragment {
         String current_user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Toast.makeText(container.getContext(), "User_ID : " + current_user_id, Toast.LENGTH_LONG).show();
-        mFirestore.collection("Users").document(current_user_id).collection("Notifications").addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+        mFirestore.collection("Users").document(current_user_id).collection("Notifications")
+                .addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
                 if(documentSnapshots!=null) {
                     for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
-                        com.adaptwo.adap.firebasenotificationapp.Notifications notifications = doc.getDocument().toObject(com.adaptwo.adap.firebasenotificationapp.Notifications.class);
+                        com.adaptwo.adap.firebasenotificationapp.Notifications notifications = doc.getDocument().
+                                toObject(com.adaptwo.adap.firebasenotificationapp.Notifications.class);
                         mNotifList.add(notifications);
 
                         notificationsAdapter.notifyDataSetChanged();

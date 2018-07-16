@@ -25,17 +25,13 @@
             <!--android:name="com.google.android.wearable.standalone"-->
             <!--android:value="false" />-->
 
-        <!--<meta-data-->
-            <!--android:name="com.google.android.wearable.notificationBridgeMode"-->
-            <!--android:value="BRIDGING" />-->
 
-        <activity android:name=".MainActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:taskAffinity="">
+        <activity android:name=".MainActivity">
+            <!--android:allowEmbedded="true"-->
+            <!--android:exported="true"-->
+            <!--android:taskAffinity="">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -43,8 +39,7 @@
 
             <activity
                 android:name=".MyStubBroadcastActivity"
-                android:label="MyStubBroadcastActivity" >
-        </activity>
+                android:label="MyStubBroadcastActivity" />
 
         <receiver
             android:name=".NotificationPageView"

@@ -13,5 +13,13 @@
 
     <string name="notification_posted">Notification posted</string>
 
+    <string name="server_client_id">Enter your server id here (from Google Developer console)
+    </string>
+    <!-- Long form sign-in button text [CHAR LIMIT=30] -->
+    <string name="wear_signin_button_text_long">Sign in with Google</string>
+    <string name="sign_out">Sign out</string>
+    <string name="google_signin_successful">Google Sign-In successful!</string>
+    <string name="signout_successful">Successfully signed out!</string>
+
 
 </resources>

@@ -1,8 +1,10 @@
 package com.adaptwo.adap.firebasenotificationapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -29,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,13 +65,17 @@ public class SendActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
+
+
         mPositiveSpinner = (Spinner) findViewById(R.id.positiveSpinner);
-        mPositiveAdapter = ArrayAdapter.createFromResource(this, R.array.positiveVibrations, android.R.layout.simple_spinner_item);
+        mPositiveAdapter = ArrayAdapter.createFromResource(this, R.array.positiveVibrations,
+                android.R.layout.simple_spinner_item);
         mPositiveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPositiveSpinner.setAdapter(mPositiveAdapter);
 
         mCorrectiveSpinner = (Spinner) findViewById(R.id.correctiveSpinner);
-        mCorrectiveAdapter = ArrayAdapter.createFromResource(this, R.array.correctiveVibrations, android.R.layout.simple_spinner_item);
+        mCorrectiveAdapter = ArrayAdapter.createFromResource(this, R.array.correctiveVibrations,
+                android.R.layout.simple_spinner_item);
         mCorrectiveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mCorrectiveSpinner.setAdapter(mCorrectiveAdapter);
 
@@ -76,12 +83,13 @@ public class SendActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int positiveChoice = parent.getSelectedItemPosition();
-                SharedPreferences sharedPref = getSharedPreferences("FileName",0);
+                SharedPreferences sharedPref = getSharedPreferences("FileName", 0);
                 SharedPreferences.Editor prefEditor = sharedPref.edit();
-                prefEditor.putInt("positiveChoice",positiveChoice);
+                prefEditor.putInt("positiveChoice", positiveChoice);
                 prefEditor.commit();
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -90,9 +98,9 @@ public class SendActivity extends AppCompatActivity {
 
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("FileName",MODE_PRIVATE);
-        int spinnerValue = sharedPref.getInt("positiveChoice",-1);
-        if(spinnerValue != -1) {
+        SharedPreferences sharedPref = getSharedPreferences("FileName", MODE_PRIVATE);
+        int spinnerValue = sharedPref.getInt("positiveChoice", -1);
+        if (spinnerValue != -1) {
             // set the selected value of the spinner
             mPositiveSpinner.setSelection(spinnerValue);
         }
@@ -102,9 +110,9 @@ public class SendActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int correctiveChoice = parent.getSelectedItemPosition();
-                SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor",0);
+                SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor", 0);
                 SharedPreferences.Editor prefEditorCor = sharedPrefCor.edit();
-                prefEditorCor.putInt("correctiveChoice",correctiveChoice);
+                prefEditorCor.putInt("correctiveChoice", correctiveChoice);
                 prefEditorCor.commit();
             }
 
@@ -113,13 +121,12 @@ public class SendActivity extends AppCompatActivity {
 
             }
         });
-        SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor",MODE_PRIVATE);
-        int spinnerValueCor = sharedPrefCor.getInt("correctiveChoice",-1);
-        if(spinnerValue != -1) {
+        SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor", MODE_PRIVATE);
+        int spinnerValueCor = sharedPrefCor.getInt("correctiveChoice", -1);
+        if (spinnerValue != -1) {
             // set the selected value of the spinner
             mCorrectiveSpinner.setSelection(spinnerValueCor);
         }
-
 
 
         user_id_view = (TextView) findViewById(R.id.user_name_view);
@@ -134,12 +141,12 @@ public class SendActivity extends AppCompatActivity {
 
 //        FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-        Log.d("NotificationApp", "From UID: " + mCurrentId );
+        Log.d("NotificationApp", "From UID: " + mCurrentId);
 
         time = Calendar.getInstance().getTime().toString();
         mUserId = getIntent().getStringExtra("user_id");
         mUserName = getIntent().getStringExtra("user_name");
-        Log.d("NotificationApp", "User ID: " + mUserId );
+        Log.d("NotificationApp", "User ID: " + mUserId);
         Commands = "Commands";
         final int launcher = R.mipmap.ic_launcher;
 //comment011
@@ -149,11 +156,12 @@ public class SendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 String message = mMessageView.getText().toString();
                 type = "Custom";
-                Log.d("NotificationsApp", "Launcher: " + launcher );
+                Log.d("NotificationsApp", "Launcher: " + launcher);
 
-                if(!TextUtils.isEmpty(message)){
+                if (!TextUtils.isEmpty(message)) {
 
                     mMessageProgress.setVisibility(View.VISIBLE);
 
@@ -168,8 +176,10 @@ public class SendActivity extends AppCompatActivity {
 //                    notificationMessage.put("vibrationTime", vibrationTime);
 //                    notificationMessage.put("vibrationAmp", vibrationAmp);
 
-                    //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
-                    mFirestore.collection("Users/" + mUserId + "/Notifications").add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    //Format of storing in Firestore: mFirestore.collection("Collection" + Document +
+                    // "Collection" + Document)
+                    mFirestore.collection("Users/" + mUserId + "/Notifications").
+                            add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
 
@@ -199,7 +209,7 @@ public class SendActivity extends AppCompatActivity {
                 String message = "Good Job! \uD83D\uDE00";
                 type = "Positive";
 
-                if(!TextUtils.isEmpty(message)){
+                if (!TextUtils.isEmpty(message)) {
 
                     mMessageProgress.setVisibility(View.VISIBLE);
 
@@ -212,11 +222,9 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("launcher", launcher);
 
 
-
-
-
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
-                    mFirestore.collection("Users/" + mUserId + "/Notifications").add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    mFirestore.collection("Users/" + mUserId + "/Notifications").
+                            add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
 
@@ -246,7 +254,7 @@ public class SendActivity extends AppCompatActivity {
                 String message = "Don't do that! \uD83D\uDE41";
                 type = "Corrective";
 
-                if(!TextUtils.isEmpty(message)){
+                if (!TextUtils.isEmpty(message)) {
 
                     mMessageProgress.setVisibility(View.VISIBLE);
 
@@ -260,7 +268,8 @@ public class SendActivity extends AppCompatActivity {
 
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
-                    mFirestore.collection("Users/" + mUserId + "/Notifications").add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    mFirestore.collection("Users/" + mUserId + "/Notifications").
+                            add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
 
@@ -283,5 +292,31 @@ public class SendActivity extends AppCompatActivity {
             }
         });
 
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        Log.d("TAG", "action: " + action);
+        String type = intent.getType();
+        Log.d("TAG", "type: " + type);
+
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            Log.d("TAG", "Gettting intent...");
+            handleSendText(intent); // Handle text being sent
+        } else {
+            // Handle other intents, such as being started from the home screen
+            Log.d("TAG", "Token not sent to phone");
+        }
+
     }
+
+    void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            // Update UI to reflect text being shared
+            Log.d("TAG", "Watch token on phone is: " + sharedText);
+        }
+   }
+
+
 }

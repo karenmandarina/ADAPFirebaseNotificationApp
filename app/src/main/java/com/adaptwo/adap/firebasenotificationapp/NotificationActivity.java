@@ -31,9 +31,11 @@ public class NotificationActivity extends AppCompatActivity {
         String dataMessage = getIntent().getStringExtra("message");
 
 
-        mFirestore.collection("Users").document(dataFrom).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        mFirestore.collection("Users").document(dataFrom).get().
+                addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+
                 String from_name = documentSnapshot.getString("name");
 
                 SharedPreferences Pref = getSharedPreferences("FromName",0);

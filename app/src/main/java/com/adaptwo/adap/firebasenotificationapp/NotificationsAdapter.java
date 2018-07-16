@@ -41,7 +41,8 @@ class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.Vie
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.single_notification, parent, false);
+        View view =  LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.single_notification, parent, false);
         return new ViewHolder(view);
 
     }
@@ -55,7 +56,8 @@ class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.Vie
 
         holder.mNotifMessage.setText(mNotifList.get(position).getMessage());
 
-        firebaseFirestore.collection("Users").document(from_id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Users").document(from_id).get().
+                addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 

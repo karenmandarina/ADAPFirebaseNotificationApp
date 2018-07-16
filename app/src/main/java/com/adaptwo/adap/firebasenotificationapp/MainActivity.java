@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendToLogin() {
 
-        Intent loginIntent = new Intent(MainActivity.this, com.adaptwo.adap.firebasenotificationapp.LoginActivity.class);
+        Intent loginIntent = new Intent(MainActivity.this,
+                com.adaptwo.adap.firebasenotificationapp.LoginActivity.class);
         startActivity(loginIntent);
         finish();
     }
@@ -58,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
         mMainPager = (ViewPager) findViewById(R.id.mainPager);
         mMainPager.setOffscreenPageLimit(2);
 
-        mPagerViewAdapter = new com.adaptwo.adap.firebasenotificationapp.PagerViewAdapter(getSupportFragmentManager());
+        mPagerViewAdapter = new com.adaptwo.adap.firebasenotificationapp.
+                PagerViewAdapter(getSupportFragmentManager());
         mMainPager.setAdapter(mPagerViewAdapter);
 
         mProfileLabel.setOnClickListener(new View.OnClickListener() {

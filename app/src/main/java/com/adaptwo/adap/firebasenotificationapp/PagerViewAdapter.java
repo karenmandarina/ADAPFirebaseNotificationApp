@@ -19,11 +19,13 @@ class PagerViewAdapter extends FragmentPagerAdapter{
 
         switch (position) {
             case 0:
-                com.adaptwo.adap.firebasenotificationapp.ProfileFragment profileFragment = new com.adaptwo.adap.firebasenotificationapp.ProfileFragment();
+                com.adaptwo.adap.firebasenotificationapp.ProfileFragment profileFragment =
+                        new com.adaptwo.adap.firebasenotificationapp.ProfileFragment();
                 return profileFragment;
 
             case 1:
-                com.adaptwo.adap.firebasenotificationapp.UsersFragment usersFragment = new com.adaptwo.adap.firebasenotificationapp.UsersFragment();
+                com.adaptwo.adap.firebasenotificationapp.UsersFragment usersFragment =
+                        new com.adaptwo.adap.firebasenotificationapp.UsersFragment();
                 return usersFragment;
 
             case 2:

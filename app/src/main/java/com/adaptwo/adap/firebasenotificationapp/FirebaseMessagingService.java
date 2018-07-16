@@ -28,7 +28,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        color = getResources().getColor(R.color.colorPrimaryDark);
+        color = getColor(R.color.colorPrimaryDark);
 
         // Receiving data from cloud functions' data paylaod
         String messageTitle = remoteMessage.getData().get("title");
@@ -39,10 +39,17 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         Log.d("NotificationsApp", "we have the data from Firebase: " + dataFrom + dataMessage);
 
 
-        final long[] pattern = {0, 200, 100, 1000, 200, 2000, 200, 1000, 100}; // sleep for 200 milliseconds and vibrate for 100 milliseconds
-
+        final long[] pattern = {0, 200, 100, 1000, 200, 2000, 200, 1000, 100};
         // Constructing a notification from the data received above
         String channelId= getString(R.string.default_notification_channel_id);
+
+        Intent intent = new Intent(this, FirebaseMessagingService.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Action action = new NotificationCompat.Action.Builder(
+                R.mipmap.ic_launcher, messageTitle, pendingIntent).build();
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -51,7 +58,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                         .setColor(color)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setAutoCancel(true)
-                      //  .extend(new Notification.WearableExtender()
+                        .extend(new NotificationCompat.WearableExtender()
+                                .addAction(action))
 
                 ;
 
@@ -76,11 +84,13 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         int mNotificationId = (int) System.currentTimeMillis();
         Log.d("test", "onMessageReceived: mnotificationid is " + mNotificationId );
 
-        NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager= (NotificationManager) getSystemService(
+                Context.NOTIFICATION_SERVICE);
 
         // For newer SDK, a notification channel is needed
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel(channelId, "Channel readable title",notificationManager.IMPORTANCE_DEFAULT );
+            NotificationChannel channel = new NotificationChannel(
+                    channelId, "Channel readable title",notificationManager.IMPORTANCE_DEFAULT );
             channel.enableVibration(true);
             channel.setVibrationPattern(pattern);
             notificationManager.createNotificationChannel(channel);
