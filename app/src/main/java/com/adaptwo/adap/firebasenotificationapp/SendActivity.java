@@ -98,13 +98,6 @@ public class SendActivity extends AppCompatActivity {
 
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("FileName", MODE_PRIVATE);
-        int spinnerValue = sharedPref.getInt("positiveChoice", -1);
-        if (spinnerValue != -1) {
-            // set the selected value of the spinner
-            mPositiveSpinner.setSelection(spinnerValue);
-        }
-        Log.d("NotificationsApp", "Spinner Positive selection: " + spinnerValue);
 
         mCorrectiveSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -121,13 +114,6 @@ public class SendActivity extends AppCompatActivity {
 
             }
         });
-        SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor", MODE_PRIVATE);
-        int spinnerValueCor = sharedPrefCor.getInt("correctiveChoice", -1);
-        if (spinnerValue != -1) {
-            // set the selected value of the spinner
-            mCorrectiveSpinner.setSelection(spinnerValueCor);
-        }
-
 
         user_id_view = (TextView) findViewById(R.id.user_name_view);
         mMessageView = (EditText) findViewById(R.id.message_view);
@@ -154,8 +140,8 @@ public class SendActivity extends AppCompatActivity {
         mSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                int spinnerValue = 12;
+                int spinnerValueCor = 12;
                 String message = mMessageView.getText().toString();
                 type = "Custom";
 
@@ -169,6 +155,8 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
+                    notificationMessage.put("positiveVib", spinnerValue);
+                    notificationMessage.put("correctiveVib", spinnerValueCor);
 
 //                    notificationMessage.put("vibrationTime", vibrationTime);
 //                    notificationMessage.put("vibrationAmp", vibrationAmp);
@@ -206,6 +194,17 @@ public class SendActivity extends AppCompatActivity {
                 String message = "Good Job! \uD83D\uDE00";
                 type = "Positive";
 
+            // Getting the  value for the positive vibration
+                SharedPreferences sharedPref = getSharedPreferences("FileName", MODE_PRIVATE);
+                final int spinnerValue = sharedPref.getInt("positiveChoice", -1);
+                if (spinnerValue != -1) {
+                    // set the selected value of the spinner
+                    mPositiveSpinner.setSelection(spinnerValue);
+                }
+                Log.d("NotificationsApp", "Spinner Positive selection: " + spinnerValue);
+
+                int spinnerValueCor = 12;
+
                 if (!TextUtils.isEmpty(message)) {
 
                     mMessageProgress.setVisibility(View.VISIBLE);
@@ -216,6 +215,8 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
+                    notificationMessage.put("positiveVib", spinnerValue);
+                    notificationMessage.put("correctiveVib", spinnerValueCor);
 
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
@@ -247,6 +248,16 @@ public class SendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                int spinnerValue = 12;
+
+                // Getting the value for corrective vibration
+                SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor", MODE_PRIVATE);
+                final int spinnerValueCor = sharedPrefCor.getInt("correctiveChoice", -1);
+                if (spinnerValueCor != -1) {
+                    // set the selected value of the spinner
+                    mCorrectiveSpinner.setSelection(spinnerValueCor);
+                }
+
                 String message = "Don't do that! \uD83D\uDE41";
                 type = "Corrective";
 
@@ -260,6 +271,8 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
+                    notificationMessage.put("positiveVib", spinnerValue);
+                    notificationMessage.put("correctiveVib", spinnerValueCor);
 
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)

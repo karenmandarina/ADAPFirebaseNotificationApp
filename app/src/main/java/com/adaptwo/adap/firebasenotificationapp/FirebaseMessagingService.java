@@ -36,11 +36,15 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         String click_action = remoteMessage.getData().get("click_action");
         String dataMessage = remoteMessage.getData().get("message");
         String dataFrom = remoteMessage.getData().get("from_user_id");
+        String dataPosVib = remoteMessage.getData().get("positiveVib");
+        String dataCorVib = remoteMessage.getData().get("correctiveVib");
+
         Log.d("NotificationsApp", "we have the data from Firebase: " + dataFrom + dataMessage);
+        Log.d("NotificationsApp", "positive num: " + dataPosVib);
+        Log.d("NotificationsApp", "corrective num: " + dataCorVib);
+        long[] pattern= new long[]{0, 200, 100, 1000, 200, 2000, 200};
 
-
-        final long[] pattern = {0, 200, 100, 1000, 200, 2000, 200, 1000, 100};
-        // Constructing a notification from the data received above
+            // Constructing a notification from the data received above
         String channelId= getString(R.string.default_notification_channel_id);
 
         NotificationCompat.Builder mBuilder =
@@ -71,7 +75,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         mBuilder.setContentIntent(resultPendingIntent);
 
-
         // Unique ID
         int mNotificationId = (int) System.currentTimeMillis();
         Log.d("test", "onMessageReceived: notificationid is " + mNotificationId );
@@ -94,19 +97,16 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             mBuilder.setVibrate(pattern);
         }
 
-//        notificationManager.notify(mNotificationId, mBuilder.build());
+        //      notificationManager.notify(mNotificationId, mBuilder.build());
         NotificationManagerCompat mNotifyMgr = NotificationManagerCompat.from(this);
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
-//
-//        NotificationManagerCompat notificationManager= NotificationManagerCompat.from(this);
-//        notificationManager.notify(mNotificationId,mBuilder.build())
+        //       NotificationManagerCompat notificationManager= NotificationManagerCompat.from(this);
+        //       notificationManager.notify(mNotificationId,mBuilder.build())
 
         Log.d("NotificationsApp", "Notified" );
 
 
-
     }
-
 
 }
