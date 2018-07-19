@@ -148,8 +148,7 @@ public class SendActivity extends AppCompatActivity {
         mUserName = getIntent().getStringExtra("user_name");
         Log.d("NotificationApp", "User ID: " + mUserId);
         Commands = "Commands";
-        final int launcher = R.mipmap.ic_launcher;
-//comment011
+        //comment011
         user_id_view.setText("Send to " + mUserName);
 
         mSendBtn.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +158,6 @@ public class SendActivity extends AppCompatActivity {
 
                 String message = mMessageView.getText().toString();
                 type = "Custom";
-                Log.d("NotificationsApp", "Launcher: " + launcher);
 
                 if (!TextUtils.isEmpty(message)) {
 
@@ -171,7 +169,6 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
-                    notificationMessage.put("launcher", launcher);
 
 //                    notificationMessage.put("vibrationTime", vibrationTime);
 //                    notificationMessage.put("vibrationAmp", vibrationAmp);
@@ -219,7 +216,6 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
-                    notificationMessage.put("launcher", launcher);
 
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
@@ -264,7 +260,6 @@ public class SendActivity extends AppCompatActivity {
                     notificationMessage.put("to", mUserName);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
-                    notificationMessage.put("launcher", launcher);
 
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)

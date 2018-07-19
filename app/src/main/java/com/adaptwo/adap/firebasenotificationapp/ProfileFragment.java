@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,11 +35,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends android.support.v4.app.Fragment {
 
     private Button mLogoutBtn;
-
     private FirebaseAuth mAuth;
-
     private CircleImageView mProfileImage;
     private TextView mProfileName;
+    private Button mHelp;
 
     private FirebaseFirestore mFirestore;
     private String mUserId;
@@ -46,8 +48,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         mLogoutBtn = (Button) view.findViewById(R.id.logout_btn);
         mProfileImage = (CircleImageView) view.findViewById(R.id.profile_image);
         mProfileName = (TextView) view.findViewById(R.id.profile_name);
+        mHelp = (Button) view.findViewById(R.id.help);
 
         // retreiving current user's name and image from Firestore
         mFirestore.collection("Users").document(mUserId).get().
@@ -91,6 +92,18 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 //                getContext().startActivity(sendIntent);
 
 
+
+            }
+        });
+
+
+        mHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent tut = new Intent(container.getContext(), Tutorial.class);
+                getActivity().finish();
+                startActivity(tut);
+                Log.d("NotificationApp", "Help clicked ");
 
             }
         });

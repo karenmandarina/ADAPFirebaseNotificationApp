@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView mProfileLabel;
     private TextView mUsersLabel;
     private TextView mNotificationLabel;
-
     private ViewPager mMainPager;
     private PagerViewAdapter mPagerViewAdapter;
     private FirebaseAuth mAuth;
@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser == null){
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
     private void sendToLogin() {
 
         Intent loginIntent = new Intent(MainActivity.this,

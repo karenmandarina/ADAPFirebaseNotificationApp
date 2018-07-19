@@ -43,13 +43,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         // Constructing a notification from the data received above
         String channelId= getString(R.string.default_notification_channel_id);
 
-        Intent intent = new Intent(this, FirebaseMessagingService.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Action action = new NotificationCompat.Action.Builder(
-                R.mipmap.ic_launcher, messageTitle, pendingIntent).build();
-
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -58,19 +51,18 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                         .setColor(color)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setAutoCancel(true)
-                        .extend(new NotificationCompat.WearableExtender()
-                                .addAction(action))
-
+                        .extend(new NotificationCompat.WearableExtender().setHintShowBackgroundOnly(true))
                 ;
 
         // Intent for when the notification is clicked
         Intent resultIntent = new Intent(click_action);
+        resultIntent.setAction(Intent.ACTION_SEND);
         resultIntent.putExtra("message", dataMessage);
         resultIntent.putExtra("from_user_id", dataFrom);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
+                PendingIntent.getBroadcast(
                         this,
                         0,
                         resultIntent,
@@ -82,7 +74,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         // Unique ID
         int mNotificationId = (int) System.currentTimeMillis();
-        Log.d("test", "onMessageReceived: mnotificationid is " + mNotificationId );
+        Log.d("test", "onMessageReceived: notificationid is " + mNotificationId );
 
         NotificationManager notificationManager= (NotificationManager) getSystemService(
                 Context.NOTIFICATION_SERVICE);

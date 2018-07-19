@@ -35,7 +35,17 @@ public class MainActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent i = new Intent();
+        i.setAction("android.intent.action.SHOW_NOTIFICATION");
+        i.putExtra(NotificationReceiver.CONTENT_KEY, getString(R.string.title));
+        sendBroadcast(i);
+        finish();
+        Log.d("TAG", "Intent Received; Phone to watch");
+
+
         send_tkn = findViewById(R.id.send_tkn);
+
 
         send_tkn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,16 +60,22 @@ public class MainActivity extends Activity {
 
                 Log.d("TAG", "Running");
                 Log.d("TAG", "1 Token ID watch: " + token_id);
+
+
                 //Log.d("TAG", "Current UID " + current_id);
 
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, token_id);
-                sendIntent.setType("text/plain");
-                startActivity(sendIntent);
+//                Intent intent = new Intent();
+//                intent.setAction("com.example.broadcast.MY_NOTIFICATION");
+//                intent.putExtra("data","Notice me senpai!");
+//                sendBroadcast(intent);
 
+//                Intent sendIntent = new Intent();
+//                sendIntent.setAction(Intent.ACTION_SEND);
+//                sendIntent.putExtra(Intent.EXTRA_TEXT, token_id);
+//                sendIntent.setType("text/plain");
+//                sendBroadcast(sendIntent);
+//                Log.d("TAG", "Intent Sent");
 
-//
 //                Intent i;
 //                PackageManager manager = getPackageManager();
 //                try {
