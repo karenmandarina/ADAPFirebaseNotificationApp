@@ -197,10 +197,10 @@ public class SendActivity extends AppCompatActivity {
             // Getting the  value for the positive vibration
                 SharedPreferences sharedPref = getSharedPreferences("FileName", MODE_PRIVATE);
                 final int spinnerValue = sharedPref.getInt("positiveChoice", -1);
-                if (spinnerValue != -1) {
-                    // set the selected value of the spinner
-                    mPositiveSpinner.setSelection(spinnerValue);
-                }
+//                if (spinnerValue != -1) {
+//                    // set the selected value of the spinner
+//                    mPositiveSpinner.setSelection(spinnerValue);
+//                }
                 Log.d("NotificationsApp", "Spinner Positive selection: " + spinnerValue);
 
                 int spinnerValueCor = 12;
@@ -253,10 +253,10 @@ public class SendActivity extends AppCompatActivity {
                 // Getting the value for corrective vibration
                 SharedPreferences sharedPrefCor = getSharedPreferences("FileNameCor", MODE_PRIVATE);
                 final int spinnerValueCor = sharedPrefCor.getInt("correctiveChoice", -1);
-                if (spinnerValueCor != -1) {
-                    // set the selected value of the spinner
-                    mCorrectiveSpinner.setSelection(spinnerValueCor);
-                }
+//                if (spinnerValueCor != -1) {
+//                    // set the selected value of the spinner
+//                    mCorrectiveSpinner.setSelection(spinnerValueCor);
+//                }
 
                 String message = "Don't do that! \uD83D\uDE41";
                 type = "Corrective";
@@ -300,31 +300,6 @@ public class SendActivity extends AppCompatActivity {
             }
         });
 
-        // Get intent, action and MIME type
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        Log.d("TAG", "action: " + action);
-        String type = intent.getType();
-        Log.d("TAG", "type: " + type);
-
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            Log.d("TAG", "Gettting intent...");
-            handleSendText(intent); // Handle text being sent
-        } else {
-            // Handle other intents, such as being started from the home screen
-            Log.d("TAG", "Token not sent to phone");
-        }
-
     }
-
-    void handleSendText(Intent intent) {
-        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if (sharedText != null) {
-            // Update UI to reflect text being shared
-            Log.d("TAG", "Watch token on phone is: " + sharedText);
-        }
-   }
-
 
 }

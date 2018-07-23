@@ -26,7 +26,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/register_image_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="170dp"
         android:background="@android:color/transparent"
         android:src="@mipmap/default_image"
         app:layout_constraintBottom_toTopOf="@id/register_name"

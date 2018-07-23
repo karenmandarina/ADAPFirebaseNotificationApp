@@ -75,8 +75,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(imageUri != null){
 
-                    mRegisterProgressBar.setVisibility(View.VISIBLE);
-
                     final String name = mNameField.getText().toString();
                     String email = mEmailField.getText().toString();
                     String password = mPasswordField.getText().toString();
@@ -88,6 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
                                 if(task.isSuccessful()){
+                                    mRegisterProgressBar.setVisibility(View.VISIBLE);
 
                                     final String user_id = mAuth.getCurrentUser().getUid();
 
@@ -98,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> uploadTask) {
 
                                             if(uploadTask.isSuccessful()){
+
 
                                                 //final String download_urlx = uploadTask.getResult().getDownloadUrl().toString();
                                                 user_profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -158,7 +158,9 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         });
 
-                    }
+                    }else
+                        Toast.makeText(RegisterActivity.this, "Error. Please fill in all fields",Toast.LENGTH_LONG).show();
+
 
                 } else
                     Toast.makeText(RegisterActivity.this, "Error. Please upload an image.",Toast.LENGTH_LONG).show();

@@ -27,32 +27,32 @@ public class NotificationActivity extends AppCompatActivity {
         mNotifData = (TextView) findViewById(R.id.notif_text);
         mShowNotifs = (Button) findViewById(R.id.show_notif);
 
+        // changed it to give the name instead of UID
         String dataFrom = getIntent().getStringExtra("from_user_id");
         String dataMessage = getIntent().getStringExtra("message");
 
+//
+//        mFirestore.collection("Users").document(dataFrom).get().
+//                addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//
+//                String from_name = documentSnapshot.getString("name");
+//
+//
+//                SharedPreferences Pref = getSharedPreferences("FromName",0);
+//                SharedPreferences.Editor prefEdit = Pref.edit();
+//                prefEdit.putString("fromName",from_name);
+//                prefEdit.commit();
+//            }
+//        });
+//
+//        SharedPreferences Pref = getSharedPreferences("FromName",MODE_PRIVATE);
+//        String  from_name = Pref.getString("fromName",null);
 
-        mFirestore.collection("Users").document(dataFrom).get().
-                addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                String from_name = documentSnapshot.getString("name");
-
-                SharedPreferences Pref = getSharedPreferences("FromName",0);
-                SharedPreferences.Editor prefEdit = Pref.edit();
-                prefEdit.putString("fromName",from_name);
-                prefEdit.commit();
-            }
-        });
-
-        SharedPreferences Pref = getSharedPreferences("FromName",MODE_PRIVATE);
-        String  from_name = Pref.getString("fromName",null);
-        if(from_name != null) {
-            // set the selected value of the spinner
-            mNotifData.setText(" FROM : " + from_name + " | MESSAGE : " + dataMessage);
-        }
-
-        Log.d("NotificationsApp", "Message: " + dataMessage);
+        // set the display text
+        mNotifData.setText(" FROM : " + dataFrom + " | MESSAGE : " + dataMessage);
 
 
         mShowNotifs.setOnClickListener(new View.OnClickListener() {

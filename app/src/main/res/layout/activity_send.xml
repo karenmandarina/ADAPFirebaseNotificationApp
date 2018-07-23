@@ -5,25 +5,26 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/relativeLayout"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="com.adaptwo.adap.firebasenotificationapp.SendActivity">
+
+    android:background="@mipmap/background"
+    tools:context="com.adaptwo.adap.firebasenotificationapp.SendActivity">
 
 
     <TextView
-    android:id="@+id/user_name_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp"
-    android:fontFamily="@font/nunito_semibold"
-    android:text="Send to ..."
-    android:textAllCaps="false"
-    android:textColor="#000000"
-    android:textSize="20sp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.18" />
+        android:id="@+id/user_name_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/nunito_semibold"
+        android:text="Send to ..."
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vibration"
+        app:layout_constraintVertical_bias="0.06" />
 
 <ProgressBar
     android:id="@+id/messageProgress"
@@ -42,10 +43,15 @@ tools:context="com.adaptwo.adap.firebasenotificationapp.SendActivity">
         android:id="@+id/VibText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="17dp"
+        android:paddingBottom="8dp"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Select Vibration Pattern..."
         app:layout_constraintTop_toBottomOf="@+id/messageProgress" />
 
     <LinearLayout
+        android:id="@+id/vibration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/VibText"
@@ -53,134 +59,137 @@ tools:context="com.adaptwo.adap.firebasenotificationapp.SendActivity">
 
         <Spinner
             android:id="@+id/positiveSpinner"
+            android:background="@drawable/input_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
+            android:paddingStart="8dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:layout_weight="1" />
         <Spinner
             android:id="@+id/correctiveSpinner"
+            android:background="@drawable/input_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
+            android:paddingStart="8dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:layout_weight="1" />
     </LinearLayout>
 
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/linearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.725">
-
-    <Button
-        android:id="@+id/positive"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/primary_color_btn"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Good Job!"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/message_view"
-        app:layout_constraintEnd_toStartOf="@+id/corrective"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/positiveImage"
-        android:layout_width="81dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:adjustViewBounds="true"
-
-        android:src="@drawable/smile"
-        app:layout_constraintBottom_toTopOf="@+id/positive"
-        app:layout_constraintEnd_toEndOf="@+id/positive"
-        app:layout_constraintStart_toStartOf="@+id/positive" />
-
-    <Button
-        android:id="@+id/corrective"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="156dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/primary_color_btn"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Don't do that!"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.77"
-        app:layout_constraintStart_toEndOf="@id/positive" />
-
-    <ImageView
-        android:id="@+id/correctiveImage"
-        android:layout_width="81dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/frown"
-        app:layout_constraintBottom_toTopOf="@+id/corrective"
-        app:layout_constraintEnd_toEndOf="@+id/corrective"
-        app:layout_constraintStart_toStartOf="@+id/corrective" />
-
-    <EditText
-        android:id="@+id/message_view"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="240dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/input_plan_background"
-        android:ems="10"
-        android:fontFamily="@font/nunito_semibold"
-        android:hint="Enter Custom Notification Message..."
-        android:inputType="textPersonName"
-        android:paddingBottom="15dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="15dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/send_btn"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <Button
-        android:id="@+id/send_btn"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/primary_color_btn"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Send Notification"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85">
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/positive"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="130dp"
+            android:background="@drawable/input_plan_background"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Good Job!"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/corrective"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/positiveImage"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/smile"
+            app:layout_constraintBottom_toTopOf="@+id/positive"
+            app:layout_constraintEnd_toEndOf="@+id/positive"
+            app:layout_constraintStart_toStartOf="@+id/positive" />
+
+        <Button
+            android:id="@+id/corrective"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="130dp"
+            android:background="@drawable/input_plan_background"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Don't do that!"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/positive" />
+
+        <ImageView
+            android:id="@+id/correctiveImage"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/frown"
+            app:layout_constraintBottom_toTopOf="@+id/corrective"
+            app:layout_constraintEnd_toEndOf="@+id/corrective"
+            app:layout_constraintStart_toStartOf="@+id/corrective" />
+
+        <EditText
+            android:id="@+id/message_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/input_background"
+            android:ems="10"
+            android:fontFamily="@font/nunito_semibold"
+            android:hint="Enter Custom Notification Message..."
+            android:inputType="textPersonName"
+            android:paddingBottom="15dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingTop="15dp"
+
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/send_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Button
+            android:id="@+id/send_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/input_plan_background"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Send Notification"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/linearLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -63,8 +63,8 @@ class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.Vie
 
                 String name = documentSnapshot.getString("name");
                 String image = documentSnapshot.getString("image");
-                Log.d("NotificationsApp", "Name " + name);
-                Log.d("NotificationsApp", "Image " + image);
+               // Log.d("NotificationsApp", "Name " + name);
+               // Log.d("NotificationsApp", "Image " + image);
 
 
 

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendToLogin() {
 
         Intent loginIntent = new Intent(MainActivity.this,
-                com.adaptwo.adap.firebasenotificationapp.LoginActivity.class);
+                LoginActivity.class);
         startActivity(loginIntent);
         finish();
     }
