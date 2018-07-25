@@ -72,125 +72,23 @@ public class RegisterActivity extends AppCompatActivity {
         mRegBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(imageUri != null){
-
-                    final String name = mNameField.getText().toString();
-                    String email = mEmailField.getText().toString();
-                    String password = mPasswordField.getText().toString();
-
-                    if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
-
-                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                if(task.isSuccessful()){
-                                    mRegisterProgressBar.setVisibility(View.VISIBLE);
-
-                                    final String user_id = mAuth.getCurrentUser().getUid();
-
-                                    final StorageReference user_profile = mStorage.child(user_id + ".jpg");
-
-                                    user_profile.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> uploadTask) {
-
-                                            if(uploadTask.isSuccessful()){
-
-
-                                                //final String download_urlx = uploadTask.getResult().getDownloadUrl().toString();
-                                                user_profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                            @Override
-                                                            public void onSuccess(Uri uri) {
-                                                                final String download_url = uri.toString();
-                                                                String token_id = FirebaseInstanceId.getInstance().getToken();
-
-                                                                Map<String, Object> userMap = new HashMap<>();
-                                                                userMap.put("name", name);
-                                                                userMap.put("image", download_url);
-                                                                userMap.put("token_id", token_id);
-
-                                                                mFirestore.collection("Users").document(user_id).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                    @Override
-                                                                    public void onSuccess(Void aVoid) {
-
-                                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
-
-                                                                        sendToMain();
-
-                                                                    }
-                                                                }).addOnFailureListener(new OnFailureListener() {
-                                                                    @Override
-                                                                    public void onFailure(@NonNull Exception e) {
-
-                                                                        Toast.makeText(RegisterActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
-
-                                                                    }
-                                                                });
-                                                            }
-                                                            //Toast.makeText(MtActivity.this, "Upload Done", Toast.LENGTH_LONG).show();
-
-                                                    });
-
-                                            } else {
-
-                                                Toast.makeText(RegisterActivity.this, "Error : " + uploadTask.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                                mRegisterProgressBar.setVisibility(View.INVISIBLE);
-
-                                            }
-
-
-                                        }
-                                    });
-
-                                    Toast.makeText(RegisterActivity.this, "Success! Account created ", Toast.LENGTH_LONG).show();
-
-
-                                } else {
-
-                                    Toast.makeText(RegisterActivity.this, "Error : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                    mRegisterProgressBar.setVisibility(View.INVISIBLE);
-
-                                }
-
-                            }
-                        });
-
-                    }else
-                        Toast.makeText(RegisterActivity.this, "Error. Please fill in all fields",Toast.LENGTH_LONG).show();
-
-
-                } else
-                    Toast.makeText(RegisterActivity.this, "Error. Please upload an image.",Toast.LENGTH_LONG).show();
-
+                createNewAccount();
             }
         });
 
         mLoginPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent logIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(logIntent);
-                finish();
-
+                sendToLogin();
             }
         });
 
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-
+                uploadImage();
             }
         });
-
 
     }
 
@@ -200,6 +98,113 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(mainIntent);
         finish();
 
+    }
+    private void sendToLogin(){
+        Intent logIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(logIntent);
+        finish();
+
+    }
+    private void uploadImage(){
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+    }
+    private void createNewAccount(){
+
+        if(imageUri != null){
+
+            final String name = mNameField.getText().toString();
+            String email = mEmailField.getText().toString();
+            String password = mPasswordField.getText().toString();
+
+            if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
+
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if(task.isSuccessful()){
+                            mRegisterProgressBar.setVisibility(View.VISIBLE);
+
+                            final String user_id = mAuth.getCurrentUser().getUid();
+
+                            final StorageReference user_profile = mStorage.child(user_id + ".jpg");
+
+                            user_profile.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> uploadTask) {
+
+                                    if(uploadTask.isSuccessful()){
+
+
+                                        //final String download_urlx = uploadTask.getResult().getDownloadUrl().toString();
+                                        user_profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                final String download_url = uri.toString();
+                                                String token_id = FirebaseInstanceId.getInstance().getToken();
+
+                                                Map<String, Object> userMap = new HashMap<>();
+                                                userMap.put("name", name);
+                                                userMap.put("image", download_url);
+                                                userMap.put("token_id", token_id);
+
+                                                mFirestore.collection("Users").document(user_id).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+
+                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
+
+                                                        sendToMain();
+
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+
+                                                        Toast.makeText(RegisterActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
+
+                                                    }
+                                                });
+                                            }
+                                            //Toast.makeText(MtActivity.this, "Upload Done", Toast.LENGTH_LONG).show();
+
+                                        });
+
+                                    } else {
+
+                                        Toast.makeText(RegisterActivity.this, "Error : " + uploadTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
+
+                                    }
+
+
+                                }
+                            });
+
+                            Toast.makeText(RegisterActivity.this, "Success! Account created ", Toast.LENGTH_LONG).show();
+
+
+                        } else {
+
+                            Toast.makeText(RegisterActivity.this, "Error : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            mRegisterProgressBar.setVisibility(View.INVISIBLE);
+
+                        }
+
+                    }
+                });
+
+            }else
+                Toast.makeText(RegisterActivity.this, "Error. Please fill in all fields",Toast.LENGTH_LONG).show();
+
+
+        } else
+            Toast.makeText(RegisterActivity.this, "Error. Please upload an image.",Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -46,25 +46,25 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         long[] pattern;
 
         if (dataPosVib.equals("0")) {
-            pattern = new long[]{0, 100, 100, 100, 0, 0, 0};
-            Log.d("NotificationsApp", "Pos default set");
+            pattern = new long[]{0, 100, 200, 300, 0};
+            Log.d("NotificationsApp", "Pos low set");
         } else if (dataPosVib.equals("1")) {
-            pattern = new long[]{0, 100, 100, 200, 100, 0, 0};
-            Log.d("NotificationsApp", "Pos 1 set");
+            pattern = new long[]{0, 300, 200, 600, 0};
+            Log.d("NotificationsApp", "Pos med set");
         } else if (dataPosVib.equals("2")) {
-            pattern = new long[]{0, 100, 100, 200, 100, 300, 100};
-            Log.d("NotificationsApp", "Pos 2 set");
+            pattern = new long[]{0, 600, 200, 1000, 0};
+            Log.d("NotificationsApp", "Pos high set");
         } else if (dataCorVib.equals("0")) {
-            pattern = new long[]{0, 1000, 200, 0, 0, 0, 0};
-            Log.d("NotificationsApp", "Cor default set");
+            pattern = new long[]{0, 300, 200, 100, 0};
+            Log.d("NotificationsApp", "Cor low set");
         } else if (dataCorVib.equals("1")) {
-            pattern = new long[]{0, 1000, 200, 100, 100, 0, 0};
-            Log.d("NotificationsApp", "Cor 1 set");
+            pattern = new long[]{0, 600, 200, 300, 0};
+            Log.d("NotificationsApp", "Cor med set");
         } else if (dataCorVib.equals("2")) {
-            pattern = new long[]{0, 1000, 200, 100, 100, 100, 100};
-            Log.d("NotificationsApp", "Cor 2 set");
+            pattern = new long[]{0, 1000, 200, 600, 0};
+            Log.d("NotificationsApp", "Cor high set");
         } else { // For custom messages
-            pattern = new long[]{0, 500, 100, 0, 0, 0, 0};
+            pattern = new long[]{0, 500, 100, 0, 0};
             Log.d("NotificationsApp", "Custom set");
         }
 

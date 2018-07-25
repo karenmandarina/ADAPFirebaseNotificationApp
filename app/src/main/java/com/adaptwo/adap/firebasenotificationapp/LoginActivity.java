@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Log.d("NotificationApp", "login onCreate step 1");
 
-
         mEmailField = (EditText) findViewById(R.id.login_email);
         mPasswordField = (EditText) findViewById(R.id.login_password);
         mLoginBtn = (Button) findViewById(R.id.login_btn);
@@ -55,16 +54,10 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("NotificationApp", "login onCreate step 2");
 
 
-
-
         mRegPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent regIntent = new Intent(LoginActivity.this,
-                        com.adaptwo.adap.firebasenotificationapp.RegisterActivity.class);
-                finish();
-                startActivity(regIntent);
+                sendToRegister();
 
             }
         });
@@ -151,6 +144,13 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(mainIntent);
         finish();
         Log.d("NotificationApp", "login onCreate step 5");
+
+    }
+    private void sendToRegister(){
+        Intent regIntent = new Intent(LoginActivity.this,
+                com.adaptwo.adap.firebasenotificationapp.RegisterActivity.class);
+        finish();
+        startActivity(regIntent);
 
     }
 

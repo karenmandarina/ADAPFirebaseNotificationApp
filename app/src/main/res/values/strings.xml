@@ -6,13 +6,13 @@
     <string name="default_notification_channel_id">Channel_01</string>
     <string name="vibrationHint">Select Vibration Pattern</string>
     <string-array name="positiveVibrations">
-        <item> Default</item>
-        <item>Positive 1 </item>
-        <item> Positive 2</item>
+        <item> Positive Low</item>
+        <item>Positive Med</item>
+        <item> Positive High</item>
     </string-array>
     <string-array name="correctiveVibrations">
-        <item> Default</item>
-        <item>Corrective 1 </item>
-        <item> Corrective 2</item>
+        <item> Corrective Low</item>
+        <item>Corrective Med</item>
+        <item> Corrective High</item>
     </string-array>
 </resources>

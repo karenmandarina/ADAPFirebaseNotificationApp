@@ -130,6 +130,8 @@ public class SendActivity extends AppCompatActivity {
         Log.d("NotificationApp", "From UID: " + mCurrentId);
 
         time = Calendar.getInstance().getTime().toString();
+
+        // getIntent from UsersRecyclerAdapter
         mUserId = getIntent().getStringExtra("user_id");
         mUserName = getIntent().getStringExtra("user_name");
         Log.d("NotificationApp", "User ID: " + mUserId);
