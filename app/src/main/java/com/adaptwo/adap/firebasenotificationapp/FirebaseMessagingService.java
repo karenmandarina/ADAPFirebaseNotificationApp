@@ -1,4 +1,5 @@
 package com.adaptwo.adap.firebasenotificationapp;
+// this is the latest code that we are using
 
 import android.app.Activity;
 import android.app.Notification;
@@ -44,6 +45,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         Log.d("NotificationsApp", "positive num: " + dataPosVib);
         Log.d("NotificationsApp", "corrective num: " + dataCorVib);
         long[] pattern;
+        int[] amp = new int[]{0, 255, 0, 255, 0}; // between 1 and 255
 
         if (dataPosVib.equals("0")) {
             pattern = new long[]{0, 100, 200, 300, 0};
@@ -115,7 +117,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 Vibrator vibrator;
                 vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 assert vibrator != null;
-                vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                vibrator.vibrate(VibrationEffect. createWaveform(pattern,amp, -1));
 
             } else {
                 mBuilder.setVibrate(pattern);
