@@ -58,7 +58,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
         // getting data stored about the current user to display on "profile" page
-        mUserId = mAuth.getCurrentUser().getUid();
+        mUserId = mAuth.getCurrentUser().getEmail();
 
         mLogoutBtn = (Button) view.findViewById(R.id.logout_btn);
         mProfileImage = (CircleImageView) view.findViewById(R.id.profile_image);

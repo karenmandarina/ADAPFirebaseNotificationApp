@@ -58,7 +58,7 @@ public class NotificationFragment extends android.support.v4.app.Fragment {
 
         mFirestore = FirebaseFirestore.getInstance();
 
-        String current_user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String current_user_id = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         mFirestore.collection("Users").document(current_user_id).collection("Notifications")
                 .addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {

@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+
             @Override
             public void onPageSelected(int position) {
 

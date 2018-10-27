@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,7 +33,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private static final int PICK_IMAGE = 1;
     private CircleImageView mImageBtn;
@@ -54,7 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         imageUri = null;
-
         mStorage = FirebaseStorage.getInstance().getReference().child("images");
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
@@ -90,6 +92,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        Spinner spinner = findViewById(R.id.question);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
     }
 
     private void sendToMain() {
@@ -112,12 +120,17 @@ public class RegisterActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
     }
+
+
+
+
+
     private void createNewAccount(){
 
         if(imageUri != null){
 
             final String name = mNameField.getText().toString();
-            String email = mEmailField.getText().toString();
+            final String email = mEmailField.getText().toString();
             String password = mPasswordField.getText().toString();
 
             if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
@@ -129,9 +142,10 @@ public class RegisterActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             mRegisterProgressBar.setVisibility(View.VISIBLE);
 
-                            final String user_id = mAuth.getCurrentUser().getUid();
+                            //final String user_id = mAuth.getCurrentUser().getUid();
+                            final String user_email = mAuth.getCurrentUser().getEmail();
 
-                            final StorageReference user_profile = mStorage.child(user_id + ".jpg");
+                            final StorageReference user_profile = mStorage.child(user_email + ".jpg");
 
                             user_profile.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -149,10 +163,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                                                 Map<String, Object> userMap = new HashMap<>();
                                                 userMap.put("name", name);
+                                                userMap.put("email", email);
                                                 userMap.put("image", download_url);
                                                 userMap.put("token_id", token_id);
 
-                                                mFirestore.collection("Users").document(user_id).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                mFirestore.collection("Users").document(user_email).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
 
@@ -217,6 +232,17 @@ public class RegisterActivity extends AppCompatActivity {
             mImageBtn.setImageURI(imageUri);
 
         }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

@@ -6,7 +6,7 @@ package com.adaptwo.adap.firebasenotificationapp;
 
 public class Users extends UserId {
 
-    String name, image;
+    String name, image, email;
 
     public Users(){
 
@@ -20,6 +20,13 @@ public class Users extends UserId {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public String getImage() {
         return image;
     }
@@ -28,8 +35,9 @@ public class Users extends UserId {
         this.image = image;
     }
 
-    public Users(String name, String image) {
+    public Users(String name, String email, String image) {
         this.name = name;
+        this.email= email;
         this.image = image;
     }
 }

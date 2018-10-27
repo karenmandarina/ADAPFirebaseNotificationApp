@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,6 +45,7 @@ public class SendActivity extends AppCompatActivity {
     private String mUserId;
     private String Commands;
     private String mUserName;
+    private String mUserEmail;
     private String mCurrentId;
     private String time;
     private String type;
@@ -123,17 +125,16 @@ public class SendActivity extends AppCompatActivity {
         mMessageProgress = (ProgressBar) findViewById(R.id.messageProgress);
 
         mFirestore = FirebaseFirestore.getInstance();
-        mCurrentId = FirebaseAuth.getInstance().getUid();
+        mCurrentId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
 //        FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         Log.d("NotificationApp", "From UID: " + mCurrentId);
 
-        time = Calendar.getInstance().getTime().toString();
-
         // getIntent from UsersRecyclerAdapter
         mUserId = getIntent().getStringExtra("user_id");
         mUserName = getIntent().getStringExtra("user_name");
+        mUserEmail = getIntent().getStringExtra("user_email");
         Log.d("NotificationApp", "User ID: " + mUserId);
         Commands = "Commands";
         //comment011
@@ -144,6 +145,17 @@ public class SendActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int spinnerValue = 12;
                 int spinnerValueCor = 12;
+//                time = Calendar.getInstance().getTime().toString();
+//
+//                Time today = new Time(Time.getCurrentTimezone());
+//
+//                Time now = new Time();
+//                now.setToNow();
+//                today.setToNow();
+
+                time = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+
+
                 String message = mMessageView.getText().toString();
                 type = "Custom";
 
@@ -154,7 +166,7 @@ public class SendActivity extends AppCompatActivity {
                     Map<String, Object> notificationMessage = new HashMap<>();
                     notificationMessage.put("message", message);
                     notificationMessage.put("from", mCurrentId);
-                    notificationMessage.put("to", mUserName);
+                    notificationMessage.put("to", mUserEmail);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
                     notificationMessage.put("positiveVib", spinnerValue);
@@ -165,10 +177,9 @@ public class SendActivity extends AppCompatActivity {
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document +
                     // "Collection" + Document)
-                    mFirestore.collection("Users/" + mUserId + "/Notifications").
-                            add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    mFirestore.collection("Users").document(mUserId).collection("Notifications").document(time+mCurrentId).set(notificationMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                        public void onSuccess(Void aVoid) {
 
                             Toast.makeText(SendActivity.this, "Notification Sent.", Toast.LENGTH_LONG).show();
                             mMessageView.setText("");
@@ -192,7 +203,8 @@ public class SendActivity extends AppCompatActivity {
         mPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //time = Calendar.getInstance().getTime().toString();
+                time = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
                 String message = "Good Job! \uD83D\uDE00";
                 type = "Positive";
 
@@ -214,18 +226,22 @@ public class SendActivity extends AppCompatActivity {
                     Map<String, Object> notificationMessage = new HashMap<>();
                     notificationMessage.put("message", message);
                     notificationMessage.put("from", mCurrentId);
-                    notificationMessage.put("to", mUserName);
+                    notificationMessage.put("to", mUserEmail);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
                     notificationMessage.put("positiveVib", spinnerValue);
                     notificationMessage.put("correctiveVib", spinnerValueCor);
-
-
+// THIS IS THE FORMAT BEFORE
+//                    mFirestore.collection("Users/" + mUserId + "/Notifications").
+//                            add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                        @Override
+//                        public void onSuccess(DocumentReference documentReference) {
+//
+//                        }
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
-                    mFirestore.collection("Users/" + mUserId + "/Notifications").
-                            add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    mFirestore.collection("Users").document(mUserId).collection("Notifications").document(time+mCurrentId).set(notificationMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                        public void onSuccess(Void aVoid) {
 
                             Toast.makeText(SendActivity.this, "Notification Sent.", Toast.LENGTH_LONG).show();
                             mMessageProgress.setVisibility(View.INVISIBLE);
@@ -249,6 +265,8 @@ public class SendActivity extends AppCompatActivity {
         mCorrective.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //time = Calendar.getInstance().getTime().toString();
+                time = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
 
                 int spinnerValue = 12;
 
@@ -270,7 +288,7 @@ public class SendActivity extends AppCompatActivity {
                     Map<String, Object> notificationMessage = new HashMap<>();
                     notificationMessage.put("message", message);
                     notificationMessage.put("from", mCurrentId);
-                    notificationMessage.put("to", mUserName);
+                    notificationMessage.put("to", mUserEmail);
                     notificationMessage.put("time", time);
                     notificationMessage.put("messageType", type);
                     notificationMessage.put("positiveVib", spinnerValue);
@@ -278,10 +296,9 @@ public class SendActivity extends AppCompatActivity {
 
 
                     //Format of storing in Firestore: mFirestore.collection("Collection" + Document + "Collection" + Document)
-                    mFirestore.collection("Users/" + mUserId + "/Notifications").
-                            add(notificationMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    mFirestore.collection("Users").document(mUserId).collection("Notifications").document(time+mCurrentId).set(notificationMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                        public void onSuccess(Void aVoid) {
 
                             Toast.makeText(SendActivity.this, "Notification Sent.", Toast.LENGTH_LONG).show();
                             mMessageProgress.setVisibility(View.INVISIBLE);

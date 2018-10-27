@@ -45,28 +45,28 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         Log.d("NotificationsApp", "positive num: " + dataPosVib);
         Log.d("NotificationsApp", "corrective num: " + dataCorVib);
         long[] pattern;
-        int[] amp = new int[]{0, 255, 0, 255, 0}; // between 1 and 255
+        int[] amp = new int[]{0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255}; // between 1 and 255
 
         if (dataPosVib.equals("0")) {
-            pattern = new long[]{0, 100, 200, 300, 0};
+            pattern = new long[]{0, 100, 100, 100, 300, 100, 100, 100,0,0,0,0,0,0,0,0};
             Log.d("NotificationsApp", "Pos low set");
         } else if (dataPosVib.equals("1")) {
-            pattern = new long[]{0, 300, 200, 600, 0};
+            pattern = new long[]{0, 100, 100, 100, 300, 100, 100, 100, 300, 100, 100, 100,0,0,0,0};
             Log.d("NotificationsApp", "Pos med set");
         } else if (dataPosVib.equals("2")) {
-            pattern = new long[]{0, 600, 200, 1000, 0};
+            pattern = new long[]{0, 100, 100, 100, 300, 100, 100, 100, 300, 100, 100, 100, 300, 100, 100, 100};
             Log.d("NotificationsApp", "Pos high set");
         } else if (dataCorVib.equals("0")) {
-            pattern = new long[]{0, 300, 200, 100, 0};
+            pattern = new long[]{0, 2000, 300, 0,0,0,0,0,0,0,0,0,0,0,0,0};
             Log.d("NotificationsApp", "Cor low set");
         } else if (dataCorVib.equals("1")) {
-            pattern = new long[]{0, 600, 200, 300, 0};
+            pattern = new long[]{0, 2000, 300, 1000, 0, 0,0,0,0,0,0,0,0,0,0,0};
             Log.d("NotificationsApp", "Cor med set");
         } else if (dataCorVib.equals("2")) {
-            pattern = new long[]{0, 1000, 200, 600, 0};
+            pattern = new long[]{0, 2000, 300, 2000, 300, 1000, 0, 0,0,0,0,0,0,0,0,0};
             Log.d("NotificationsApp", "Cor high set");
         } else { // For custom messages
-            pattern = new long[]{0, 500, 100, 0, 0};
+            pattern = new long[]{0, 500, 100,0,0,0,0,0,0,0,0,0,0,0,0,0};
             Log.d("NotificationsApp", "Custom set");
         }
 

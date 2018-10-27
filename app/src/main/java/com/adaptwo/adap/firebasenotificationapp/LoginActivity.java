@@ -81,14 +81,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                 String token_id = FirebaseInstanceId.getInstance().getToken();
-                                String current_id = mAuth.getCurrentUser().getUid();
+                                // String current_id = mAuth.getCurrentUser().getUid();
+                                String current_email = mAuth.getCurrentUser().getEmail();
 
                                 // Upon logging in we get the Token ID of the devise the user is logging into
                                 // this way we can send notification to that devise via the Token ID
                                 Map<String, Object> tokenMap = new HashMap<>();
                                 tokenMap.put("token_id", token_id);
 
-                                mFirestore.collection("Users").document(current_id)
+                                mFirestore.collection("Users").document(current_email)
                                         .update(tokenMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
