@@ -92,12 +92,12 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             }
         });
 
-        // is this all the code you added melly?
+// Melly's code:
         Spinner spinner = findViewById(R.id.question);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        // spinner.setOnItemSelectedListener(this);
 
     }
 

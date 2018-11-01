@@ -3,6 +3,7 @@ package com.adaptwo.adap.firebasenotificationapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     private CircleImageView mProfileImage;
     private TextView mProfileName;
     private Button mHelp;
+    private Button mWebsiteBtn;
 
     private FirebaseFirestore mFirestore;
     private String mUserId;
@@ -64,27 +66,28 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         mProfileImage = (CircleImageView) view.findViewById(R.id.profile_image);
         mProfileName = (TextView) view.findViewById(R.id.profile_name);
         mHelp = (Button) view.findViewById(R.id.help);
+        mWebsiteBtn = (Button) view.findViewById(R.id.website_btn);
 
         // retreiving current user's name and image from Firestore
         mFirestore.collection("Users").document(mUserId).get().
                 addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                String user_name = documentSnapshot.getString("name");
-                String user_image = documentSnapshot.getString("image");
+                        String user_name = documentSnapshot.getString("name");
+                        String user_image = documentSnapshot.getString("image");
 
-                // display user name in the TextView
-                mProfileName.setText(user_name);
+                        // display user name in the TextView
+                        mProfileName.setText(user_name);
 
-                // default image for profile pic
-                RequestOptions placeholderOption = new RequestOptions();
-                placeholderOption.placeholder(R.mipmap.default_image);
+                        // default image for profile pic
+                        RequestOptions placeholderOption = new RequestOptions();
+                        placeholderOption.placeholder(R.mipmap.default_image);
 
-                // display user image in the CircleImageView
-                Glide.with(container.getContext()).setDefaultRequestOptions(placeholderOption).
-                        load(user_image).into(mProfileImage);
-                //Log.d("NotificationApp", "User image: " + user_image);
+                        // display user image in the CircleImageView
+                        Glide.with(container.getContext()).setDefaultRequestOptions(placeholderOption).
+                                load(user_image).into(mProfileImage);
+                        //Log.d("NotificationApp", "User image: " + user_image);
 
 //                Intent sendIntent = new Intent(getContext(),
 //                  com.adaptwo.adap.firebasenotificationapp.SendActivity.class);
@@ -93,8 +96,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
 
 
-            }
-        });
+                    }
+                });
 
 
         mHelp.setOnClickListener(new View.OnClickListener() {
@@ -121,19 +124,26 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
                 mFirestore.collection("Users").document(mUserId).update(tokenMapRemove).
                         addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
+                            @Override
+                            public void onSuccess(Void aVoid) {
 
-                        mAuth.signOut();
-                        Intent loginIntent = new Intent(container.getContext(), LoginActivity.class);
-                        getActivity().finish();
-                        startActivity(loginIntent);
-                        Log.d("NotificationApp", "Logged out");
+                                mAuth.signOut();
+                                Intent loginIntent = new Intent(container.getContext(), LoginActivity.class);
+                                getActivity().finish();
+                                startActivity(loginIntent);
+                                Log.d("NotificationApp", "Logged out");
 
 
-                    }
-                });
+                            }
+                        });
 
+            }
+        });
+        mWebsiteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://adap2-notification.firebaseapp.com/login"));
+                startActivity(browserIntent);
             }
         });
 
