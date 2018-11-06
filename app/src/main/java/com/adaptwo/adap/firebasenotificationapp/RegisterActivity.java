@@ -1,6 +1,7 @@
 package com.adaptwo.adap.firebasenotificationapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -44,11 +45,13 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     private Button mLoginPageBtn;
 
     private Uri imageUri;
+    private String mStatus;
 
     private StorageReference mStorage;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
-
+    private Spinner spinner;
+    ArrayAdapter<CharSequence> spinnerAdapter;
     private ProgressBar mRegisterProgressBar;
 
     @Override
@@ -60,6 +63,12 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         mStorage = FirebaseStorage.getInstance().getReference().child("images");
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
+
+        spinner = (Spinner) findViewById(R.id.question);
+        spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.options,
+                android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
 
         mImageBtn = (CircleImageView) findViewById(R.id.register_image_btn);
         mEmailField = (EditText) findViewById(R.id.register_email);
@@ -93,12 +102,24 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         });
 
 // Melly's code:
-        Spinner spinner = findViewById(R.id.question);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.options, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        // spinner.setOnItemSelectedListener(this);
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent,View view, int position, long id) {
+                int status = parent.getSelectedItemPosition();
+                SharedPreferences sharedPrefStatus = getSharedPreferences("FileNameCor", 0);
+                SharedPreferences.Editor prefEditorStatus = sharedPrefStatus.edit();
+                prefEditorStatus.putInt("status", status);
+                prefEditorStatus.commit();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
     }
 
     private void sendToMain() {
@@ -135,85 +156,99 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             String password = mPasswordField.getText().toString();
 
             if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
+                // receving the value of the spinner
+                SharedPreferences sharedPrefStatus = getSharedPreferences("FileNameCor", MODE_PRIVATE);
+                final int spinnerValueStatus = sharedPrefStatus.getInt("status", -1);
+                if (spinnerValueStatus > 0) {
 
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if(task.isSuccessful()){
-                            mRegisterProgressBar.setVisibility(View.VISIBLE);
+                            if (task.isSuccessful()) {
+                                mRegisterProgressBar.setVisibility(View.VISIBLE);
 
-                            //final String user_id = mAuth.getCurrentUser().getUid();
-                            final String user_email = mAuth.getCurrentUser().getEmail();
+                                //final String user_id = mAuth.getCurrentUser().getUid();
+                                final String user_email = mAuth.getCurrentUser().getEmail();
 
-                            final StorageReference user_profile = mStorage.child(user_email + ".jpg");
+                                final StorageReference user_profile = mStorage.child(user_email + ".jpg");
 
-                            user_profile.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> uploadTask) {
+                                user_profile.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> uploadTask) {
 
-                                    if(uploadTask.isSuccessful()){
+                                        if (uploadTask.isSuccessful()) {
 
+                                            //final String download_urlx = uploadTask.getResult().getDownloadUrl().toString();
+                                            user_profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    final String download_url = uri.toString();
+                                                    String token_id = FirebaseInstanceId.getInstance().getToken();
 
-                                        //final String download_urlx = uploadTask.getResult().getDownloadUrl().toString();
-                                        user_profile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                            @Override
-                                            public void onSuccess(Uri uri) {
-                                                final String download_url = uri.toString();
-                                                String token_id = FirebaseInstanceId.getInstance().getToken();
-
-                                                Map<String, Object> userMap = new HashMap<>();
-                                                userMap.put("name", name);
-                                                userMap.put("email", email);
-                                                userMap.put("image", download_url);
-                                                userMap.put("token_id", token_id);
-
-                                                mFirestore.collection("Users").document(user_email).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-
-                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
-
-                                                        sendToMain();
-
+                                                    if (spinnerValueStatus == 1) {
+                                                        mStatus = "Student";
+                                                    } else if (spinnerValueStatus == 2) {
+                                                        mStatus = "Instructor";
                                                     }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
+                                                    Map<String, Object> userMap = new HashMap<>();
+                                                    userMap.put("name", name);
+                                                    userMap.put("email", email);
+                                                    userMap.put("image", download_url);
+                                                    userMap.put("token_id", token_id);
+                                                    userMap.put("status", mStatus);
 
-                                                        Toast.makeText(RegisterActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
+                                                    mFirestore.collection("Users").document(user_email).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
 
-                                                    }
-                                                });
-                                            }
-                                            //Toast.makeText(MtActivity.this, "Upload Done", Toast.LENGTH_LONG).show();
+                                                            mRegisterProgressBar.setVisibility(View.INVISIBLE);
 
-                                        });
+                                                            sendToMain();
 
-                                    } else {
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
 
-                                        Toast.makeText(RegisterActivity.this, "Error : " + uploadTask.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
+                                                            Toast.makeText(RegisterActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                            mRegisterProgressBar.setVisibility(View.INVISIBLE);
+
+                                                        }
+                                                    });
+
+                                                }
+                                                //Toast.makeText(MtActivity.this, "Upload Done", Toast.LENGTH_LONG).show();
+
+                                            });
+
+                                        } else {
+
+                                            Toast.makeText(RegisterActivity.this, "Error : " + uploadTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                            mRegisterProgressBar.setVisibility(View.INVISIBLE);
+
+                                        }
+
 
                                     }
+                                });
+
+                                Toast.makeText(RegisterActivity.this, "Success! Account created ", Toast.LENGTH_LONG).show();
 
 
-                                }
-                            });
+                            } else {
 
-                            Toast.makeText(RegisterActivity.this, "Success! Account created ", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterActivity.this, "Error : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                mRegisterProgressBar.setVisibility(View.INVISIBLE);
 
-
-                        } else {
-
-                            Toast.makeText(RegisterActivity.this, "Error : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            mRegisterProgressBar.setVisibility(View.INVISIBLE);
+                            }
 
                         }
-
+                    });
+                }else {
+                        Toast.makeText(RegisterActivity.this, "Error : Please select if you are a student or not", Toast.LENGTH_LONG).show();
+                        mRegisterProgressBar.setVisibility(View.INVISIBLE);
                     }
-                });
 
             }else
                 Toast.makeText(RegisterActivity.this, "Error. Please fill in all fields",Toast.LENGTH_LONG).show();

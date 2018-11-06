@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
@@ -36,14 +37,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends android.support.v4.app.Fragment {
 
     private Button mLogoutBtn;
-    private FirebaseAuth mAuth;
     private CircleImageView mProfileImage;
     private TextView mProfileName;
     private Button mHelp;
     private Button mWebsiteBtn;
-
     private FirebaseFirestore mFirestore;
+    private FirebaseAuth mAuth;
     private String mUserId;
+    private String mStatus;
     static final String FROM_PREFS = "EmailPrefs";
     static final String FROM_NAME = "senderEmail";
 
@@ -139,13 +140,44 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
 
             }
         });
-        mWebsiteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://adap2-notification.firebaseapp.com/login"));
-                startActivity(browserIntent);
-            }
-        });
+
+
+        mFirestore.collection("Users").document(mUserId).get().
+                addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        mStatus = documentSnapshot.getString("status");
+                        Log.d("NotificationsApp", "Profile fragment got the status " + mStatus);
+                        // Is the user is an instructor, then take them to the "Send Activity page"
+                        // else (a student) don't do anything
+
+                        if (mStatus.equals("Instructor")){
+                            Log.d("NotificationsApp", "Users list instructor loop is good");
+                            mWebsiteBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view){
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://adap2-notification.firebaseapp.com/login"));
+                                    startActivity(browserIntent);
+                                }
+                            });
+
+                        }else  {
+                            Log.d("NotificationsApp", "Users list student loop is good");
+                            mWebsiteBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view){
+                                    Toast.makeText(getContext(), "Sorry, students are not allowed to view data ", Toast.LENGTH_LONG).show();
+
+                                }
+                            });
+
+                        }
+
+                    }
+                });
+
+
+
 
         return view;
 
