@@ -15,6 +15,7 @@ import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.adaptwo.adap.firebasenotificationapp.R;
 import com.google.firebase.messaging.RemoteMessage;
@@ -46,6 +47,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         Log.d("NotificationsApp", "corrective num: " + dataCorVib);
         long[] pattern;
         int[] amp = new int[]{0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255}; // between 1 and 255
+
 
         if (dataPosVib.equals("0")) {
             pattern = new long[]{0, 100, 100, 100, 300, 100, 100, 100,0,0,0,0,0,0,0,0};
@@ -123,12 +125,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 mBuilder.setVibrate(pattern);
             }
 
-            //      notificationManager.notify(mNotificationId, mBuilder.build());
             NotificationManagerCompat mNotifyMgr = NotificationManagerCompat.from(this);
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
-            //       NotificationManagerCompat notificationManager= NotificationManagerCompat.from(this);
-            //       notificationManager.notify(mNotificationId,mBuilder.build())
 
             Log.d("NotificationsApp", "Notified");
 

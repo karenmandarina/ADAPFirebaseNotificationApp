@@ -27,6 +27,7 @@ import java.util.List;
 public class NotificationFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView mNotificationList;
+    private LinearLayoutManager mLayoutManager;
     private NotificationsAdapter notificationsAdapter;
 
     private List<com.adaptwo.adap.firebasenotificationapp.Notifications> mNotifList;
@@ -50,10 +51,15 @@ public class NotificationFragment extends android.support.v4.app.Fragment {
         mNotificationList = (RecyclerView) v.findViewById(R.id.notification_list);
         notificationsAdapter = new NotificationsAdapter(getContext(), mNotifList);
 
+        // making sure newest notification shows on top
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
 
 
         mNotificationList.setHasFixedSize(true);
-        mNotificationList.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        mNotificationList.setLayoutManager(mLayoutManager);
+//        mNotificationList.setLayoutManager(new LinearLayoutManager(container.getContext()));
         mNotificationList.setAdapter(notificationsAdapter);
 
         mFirestore = FirebaseFirestore.getInstance();
@@ -71,6 +77,7 @@ public class NotificationFragment extends android.support.v4.app.Fragment {
                         com.adaptwo.adap.firebasenotificationapp.Notifications notifications = doc.getDocument().
                                 toObject(com.adaptwo.adap.firebasenotificationapp.Notifications.class);
                         mNotifList.add(notifications);
+
 
                         notificationsAdapter.notifyDataSetChanged();
 

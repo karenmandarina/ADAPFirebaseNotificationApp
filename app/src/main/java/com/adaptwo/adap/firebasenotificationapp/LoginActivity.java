@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordField;
     private Button mLoginBtn;
     private Button mRegPageBtn;
-
+    private Button mHelp;
     private ProgressBar mProgressBar;
 
     private FirebaseAuth mAuth;
@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordField = (EditText) findViewById(R.id.login_password);
         mLoginBtn = (Button) findViewById(R.id.login_btn);
         mRegPageBtn = (Button) findViewById(R.id.login_register_btn);
+        mHelp = (Button) findViewById(R.id.login_help);
 
         mProgressBar = (ProgressBar) findViewById(R.id.loginProgress);
 
@@ -53,7 +54,15 @@ public class LoginActivity extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
         Log.d("NotificationApp", "login onCreate step 2");
 
-
+        mHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent tut = new Intent(LoginActivity.this, Tutorial.class);
+                startActivity(tut);
+                finish();
+                Log.d("NotificationApp", "Help clicked ");
+            }
+        });
         mRegPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

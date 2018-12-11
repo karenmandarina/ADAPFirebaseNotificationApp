@@ -39,7 +39,7 @@ public class Tutorial extends AppCompatActivity {
 
     //this code brings the user back to the main menu when the back button is pressed
     public void tuttomain(View view){
-        Intent homeIntent = new Intent(Tutorial.this, MainActivity.class);
+        Intent homeIntent = new Intent(Tutorial.this, LoginActivity.class);
         startActivity(homeIntent);
         finish();
     }

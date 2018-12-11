@@ -31,27 +31,6 @@ public class NotificationActivity extends AppCompatActivity {
         String dataFrom = getIntent().getStringExtra("from_user_id");
         String dataMessage = getIntent().getStringExtra("message");
 
-//
-//        mFirestore.collection("Users").document(dataFrom).get().
-//                addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//
-//                String from_name = documentSnapshot.getString("name");
-//
-//
-//                SharedPreferences Pref = getSharedPreferences("FromName",0);
-//                SharedPreferences.Editor prefEdit = Pref.edit();
-//                prefEdit.putString("fromName",from_name);
-//                prefEdit.commit();
-//            }
-//        });
-//
-//        SharedPreferences Pref = getSharedPreferences("FromName",MODE_PRIVATE);
-//        String  from_name = Pref.getString("fromName",null);
-
-
-        // set the display text
         mNotifData.setText(" FROM : " + dataFrom + " | MESSAGE : " + dataMessage);
 
 
